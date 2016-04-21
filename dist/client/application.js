@@ -37,114 +37,6 @@
 
 })(window, document, angular);
 
-(function () {
-  'use strict';
-
-  angular
-    .module('core')
-    .controller('HeaderController', HeaderController);
-
-  HeaderController.$inject = ['$mdComponentRegistry', '$log'];
-
-  function HeaderController($mdComponentRegistry, $log) {
-    var vm = this;
-
-    vm.navigation = {};
-
-    $mdComponentRegistry
-      .when('coreLeftNav')
-      .then(function(nav) {
-        vm.navigation.left = nav;
-      });
-
-    $mdComponentRegistry
-      .when('coreRightNav')
-      .then(function(nav) {
-        vm.navigation.right = nav;
-      });
-
-    $log.info('HeaderController::Init', vm);
-  }
-})();
-
-(function() {
-  'use strict';
-
-  angular
-    .module('core')
-    .controller('HomeController', HomeController);
-
-  HomeController.$inject = ['$log'];
-
-  function HomeController($log) {
-    var vm = this;
-
-    $log.info('HomeController::Init', vm);
-  }
-})();
-
-(function() {
-  'use strict';
-
-  angular
-    .module('core')
-    .controller('SideNavLeftController', SideNavLeftController);
-
-  SideNavLeftController.$inject = ['$mdComponentRegistry', '$mdMedia', 'CORE_CONSTANTS', '$log'];
-
-  function SideNavLeftController($mdComponentRegistry, $mdMedia, CORE_CONSTANTS, $log) {
-    var vm = this;
-
-    vm.config = CORE_CONSTANTS.navigation.left;
-    vm.isLockedOpen = isLockedOpen;
-
-    $mdComponentRegistry
-      .when('coreLeftNav')
-      .then(function(nav) {
-        vm.navigation = nav;
-      });
-
-    function isLockedOpen() {
-      vm.config.backdrop = CORE_CONSTANTS.navigation.left.backdrop;
-      if (vm.config.locked.always) {
-        vm.config.backdrop = true;
-        return true;
-      }
-
-      if ($mdMedia(vm.config.locked.media)) {
-        vm.config.backdrop = true;
-        return true;
-      }
-
-      return false;
-    }
-
-    $log.info('SideNavLeftController::Init', vm);
-  }
-})();
-
-(function() {
-  'use strict';
-
-  angular
-    .module('core')
-    .controller('SideNavRightController', SideNavRightController);
-
-  SideNavRightController.$inject = ['$mdComponentRegistry', '$log'];
-
-  function SideNavRightController($mdComponentRegistry, $log) {
-    var vm = this;
-
-    $mdComponentRegistry
-      .when('coreRightNav')
-      .then(function(nav) {
-        vm.navigation = nav;
-      });
-
-    $log.info('SideNavRightController::Init', vm);
-  }
-})();
-
 (function() {
   'use strict';
 
@@ -398,6 +290,114 @@
     $locationProvider.html5Mode(true).hashPrefix('!');
   }
 
+})();
+
+(function () {
+  'use strict';
+
+  angular
+    .module('core')
+    .controller('HeaderController', HeaderController);
+
+  HeaderController.$inject = ['$mdComponentRegistry', '$log'];
+
+  function HeaderController($mdComponentRegistry, $log) {
+    var vm = this;
+
+    vm.navigation = {};
+
+    $mdComponentRegistry
+      .when('coreLeftNav')
+      .then(function(nav) {
+        vm.navigation.left = nav;
+      });
+
+    $mdComponentRegistry
+      .when('coreRightNav')
+      .then(function(nav) {
+        vm.navigation.right = nav;
+      });
+
+    $log.info('HeaderController::Init', vm);
+  }
+})();
+
+(function() {
+  'use strict';
+
+  angular
+    .module('core')
+    .controller('HomeController', HomeController);
+
+  HomeController.$inject = ['$log'];
+
+  function HomeController($log) {
+    var vm = this;
+
+    $log.info('HomeController::Init', vm);
+  }
+})();
+
+(function() {
+  'use strict';
+
+  angular
+    .module('core')
+    .controller('SideNavLeftController', SideNavLeftController);
+
+  SideNavLeftController.$inject = ['$mdComponentRegistry', '$mdMedia', 'CORE_CONSTANTS', '$log'];
+
+  function SideNavLeftController($mdComponentRegistry, $mdMedia, CORE_CONSTANTS, $log) {
+    var vm = this;
+
+    vm.config = CORE_CONSTANTS.navigation.left;
+    vm.isLockedOpen = isLockedOpen;
+
+    $mdComponentRegistry
+      .when('coreLeftNav')
+      .then(function(nav) {
+        vm.navigation = nav;
+      });
+
+    function isLockedOpen() {
+      vm.config.backdrop = CORE_CONSTANTS.navigation.left.backdrop;
+      if (vm.config.locked.always) {
+        vm.config.backdrop = true;
+        return true;
+      }
+
+      if ($mdMedia(vm.config.locked.media)) {
+        vm.config.backdrop = true;
+        return true;
+      }
+
+      return false;
+    }
+
+    $log.info('SideNavLeftController::Init', vm);
+  }
+})();
+
+(function() {
+  'use strict';
+
+  angular
+    .module('core')
+    .controller('SideNavRightController', SideNavRightController);
+
+  SideNavRightController.$inject = ['$mdComponentRegistry', '$log'];
+
+  function SideNavRightController($mdComponentRegistry, $log) {
+    var vm = this;
+
+    $mdComponentRegistry
+      .when('coreRightNav')
+      .then(function(nav) {
+        vm.navigation = nav;
+      });
+
+    $log.info('SideNavRightController::Init', vm);
+  }
 })();
 
 (function() {
