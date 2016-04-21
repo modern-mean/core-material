@@ -56,6 +56,7 @@ function templates() {
   return gulp.src(['./client/**/*.html'])
     .pipe(templateCache({
       root: 'modern-mean-core-material/',
+      module: 'core'
     }))
     .pipe(gulp.dest('./dist/client'));
 }
