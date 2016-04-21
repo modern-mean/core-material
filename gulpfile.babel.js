@@ -43,10 +43,15 @@ gulp.task(server);
 function vendor() {
   let bowerFiles = mainBowerFiles();
   let angularJS = filter(['**/angular.js'], { restore: true });
+  let filterCSS = filter(['**/*.css'], { restore: true });
   return gulp.src(bowerFiles)
     .pipe(angularJS)
     .pipe(gulp.dest('./dist/client'))
     .pipe(angularJS.restore)
+    .pipe(filterCSS)
+    .pipe(concat('vendor.css'))
+    .pipe(gulp.dest('./dist/client'))
+    .pipe(filterCSS.restore)
     .pipe(concat('vendor.js'))
     .pipe(gulp.dest('./dist/client'));
 }
