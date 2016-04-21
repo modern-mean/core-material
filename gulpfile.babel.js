@@ -5,6 +5,7 @@ import babel from 'gulp-babel';
 import concat from 'gulp-concat';
 import eslint from 'gulp-eslint';
 import filter from 'gulp-filter';
+import rename from 'gulp-rename';
 import del from 'del';
 import mainBowerFiles from 'main-bower-files';
 import templateCache from 'gulp-angular-templatecache';
@@ -63,11 +64,19 @@ function templates() {
 templates.displayName = 'templates';
 gulp.task(templates);
 
+function bootloader() {
+  return gulp.src(['./client/app/core.client.app.loader.js'])
+          .pipe(rename('bootloader.js'))
+          .pipe(gulp.dest('./dist/client'));
+}
+bootloader.displayName = 'bootloader';
+gulp.task(bootloader);
+
 function client() {
-  let filterJS = filter(['**/*.js', '!'], { restore: true }),
+  let filterJS = filter(['**/*.js'], { restore: true }),
     filterCSS = filter(['**/*.css'], { restore: true });
 
-  return gulp.src(['./client/app/core.client.app.loader.js', './client/**/*.module.js', './client/**/*.{js,css}'])
+  return gulp.src(['./client/**/*.module.js', './client/**/*.{js,css}', '!**/core.client.app.loader.js'])
     .pipe(filterJS)
     .pipe(concat('application.js'))
     .pipe(gulp.dest('./dist/client'))
@@ -95,7 +104,7 @@ images.displayName = 'images';
 gulp.task(images);
 
 //Gulp Default
-var defaultTask = gulp.series(clean, gulp.parallel(images, templates, client, vendor, server));
+var defaultTask = gulp.series(clean, gulp.parallel(images, templates, client, vendor, server, bootloader));
 defaultTask.displayName = 'default';
 gulp.task(defaultTask);
 

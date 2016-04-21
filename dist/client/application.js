@@ -1,34 +1,3 @@
-(function(window, document, angular) {
-  'use strict';
-
-  window.modernMeanApplication = {
-    name: 'modernMean',
-    dependencies: ['ngResource', 'ui.router', 'ngSanitize', 'ngMaterial', 'ngMessages', 'ngAria', 'ngMdIcons', 'angular-google-analytics', 'ngLodash'],
-    registerModule: registerModule
-  };
-
-  function registerModule(moduleName, dependencies) {
-    // Create angular module
-    angular.module(moduleName, dependencies || []);
-
-    // Add the module to the AngularJS configuration file
-    angular.module(window.modernMeanApplication.name).requires.push(moduleName);
-    console.log('Module::Init::' + moduleName, angular.module(moduleName));
-  }
-
-  //Start by defining the main module and adding the module dependencies
-  window.modernMeanApplication.registerModule(window.modernMeanApplication.name, window.modernMeanApplication.dependencies);
-
-  //Then define the init function for starting up the application
-  angular
-    .element(document)
-    .ready(function () {
-      angular
-        .bootstrap(document, [window.modernMeanApplication.name]);
-    });
-
-})(window, document, angular);
-
 (function(app) {
   'use strict';
 
@@ -36,6 +5,114 @@
   app.registerModule('core.routes', ['ui.router']);
 
 })(window.modernMeanApplication);
+
+(function () {
+  'use strict';
+
+  angular
+    .module('core')
+    .controller('HeaderController', HeaderController);
+
+  HeaderController.$inject = ['$mdComponentRegistry', '$log'];
+
+  function HeaderController($mdComponentRegistry, $log) {
+    var vm = this;
+
+    vm.navigation = {};
+
+    $mdComponentRegistry
+      .when('coreLeftNav')
+      .then(function(nav) {
+        vm.navigation.left = nav;
+      });
+
+    $mdComponentRegistry
+      .when('coreRightNav')
+      .then(function(nav) {
+        vm.navigation.right = nav;
+      });
+
+    $log.info('HeaderController::Init', vm);
+  }
+})();
+
+(function() {
+  'use strict';
+
+  angular
+    .module('core')
+    .controller('HomeController', HomeController);
+
+  HomeController.$inject = ['$log'];
+
+  function HomeController($log) {
+    var vm = this;
+
+    $log.info('HomeController::Init', vm);
+  }
+})();
+
+(function() {
+  'use strict';
+
+  angular
+    .module('core')
+    .controller('SideNavLeftController', SideNavLeftController);
+
+  SideNavLeftController.$inject = ['$mdComponentRegistry', '$mdMedia', 'CORE_CONSTANTS', '$log'];
+
+  function SideNavLeftController($mdComponentRegistry, $mdMedia, CORE_CONSTANTS, $log) {
+    var vm = this;
+
+    vm.config = CORE_CONSTANTS.navigation.left;
+    vm.isLockedOpen = isLockedOpen;
+
+    $mdComponentRegistry
+      .when('coreLeftNav')
+      .then(function(nav) {
+        vm.navigation = nav;
+      });
+
+    function isLockedOpen() {
+      vm.config.backdrop = CORE_CONSTANTS.navigation.left.backdrop;
+      if (vm.config.locked.always) {
+        vm.config.backdrop = true;
+        return true;
+      }
+
+      if ($mdMedia(vm.config.locked.media)) {
+        vm.config.backdrop = true;
+        return true;
+      }
+
+      return false;
+    }
+
+    $log.info('SideNavLeftController::Init', vm);
+  }
+})();
+
+(function() {
+  'use strict';
+
+  angular
+    .module('core')
+    .controller('SideNavRightController', SideNavRightController);
+
+  SideNavRightController.$inject = ['$mdComponentRegistry', '$log'];
+
+  function SideNavRightController($mdComponentRegistry, $log) {
+    var vm = this;
+
+    $mdComponentRegistry
+      .when('coreRightNav')
+      .then(function(nav) {
+        vm.navigation = nav;
+      });
+
+    $log.info('SideNavRightController::Init', vm);
+  }
+})();
 
 (function() {
   'use strict';
@@ -297,146 +374,6 @@
 
   angular
     .module('core')
-    .controller('HeaderController', HeaderController);
-
-  HeaderController.$inject = ['$mdComponentRegistry', '$log'];
-
-  function HeaderController($mdComponentRegistry, $log) {
-    var vm = this;
-
-    vm.navigation = {};
-
-    $mdComponentRegistry
-      .when('coreLeftNav')
-      .then(function(nav) {
-        vm.navigation.left = nav;
-      });
-
-    $mdComponentRegistry
-      .when('coreRightNav')
-      .then(function(nav) {
-        vm.navigation.right = nav;
-      });
-
-    $log.info('HeaderController::Init', vm);
-  }
-})();
-
-(function() {
-  'use strict';
-
-  angular
-    .module('core')
-    .controller('HomeController', HomeController);
-
-  HomeController.$inject = ['$log'];
-
-  function HomeController($log) {
-    var vm = this;
-
-    $log.info('HomeController::Init', vm);
-  }
-})();
-
-(function() {
-  'use strict';
-
-  angular
-    .module('core')
-    .controller('SideNavLeftController', SideNavLeftController);
-
-  SideNavLeftController.$inject = ['$mdComponentRegistry', '$mdMedia', 'CORE_CONSTANTS', '$log'];
-
-  function SideNavLeftController($mdComponentRegistry, $mdMedia, CORE_CONSTANTS, $log) {
-    var vm = this;
-
-    vm.config = CORE_CONSTANTS.navigation.left;
-    vm.isLockedOpen = isLockedOpen;
-
-    $mdComponentRegistry
-      .when('coreLeftNav')
-      .then(function(nav) {
-        vm.navigation = nav;
-      });
-
-    function isLockedOpen() {
-      vm.config.backdrop = CORE_CONSTANTS.navigation.left.backdrop;
-      if (vm.config.locked.always) {
-        vm.config.backdrop = true;
-        return true;
-      }
-
-      if ($mdMedia(vm.config.locked.media)) {
-        vm.config.backdrop = true;
-        return true;
-      }
-
-      return false;
-    }
-
-    $log.info('SideNavLeftController::Init', vm);
-  }
-})();
-
-(function() {
-  'use strict';
-
-  angular
-    .module('core')
-    .controller('SideNavRightController', SideNavRightController);
-
-  SideNavRightController.$inject = ['$mdComponentRegistry', '$log'];
-
-  function SideNavRightController($mdComponentRegistry, $log) {
-    var vm = this;
-
-    $mdComponentRegistry
-      .when('coreRightNav')
-      .then(function(nav) {
-        vm.navigation = nav;
-      });
-
-    $log.info('SideNavRightController::Init', vm);
-  }
-})();
-
-(function() {
-  'use strict';
-
-  angular
-    .module('core.routes')
-    .directive('pageTitle', pageTitle);
-
-  pageTitle.$inject = ['$rootScope', '$state', 'CORE_CONSTANTS', '$log'];
-
-  function pageTitle($rootScope, $state, CORE_CONSTANTS, $log) {
-    var directive = {
-      retrict: 'A',
-      link: link
-    };
-
-    function link(scope, element) {
-      $rootScope.$on('$stateChangeStart', listener);
-
-      function listener(event, toState) {
-        $log.info('Core::Directive::PageTitle', toState.data.pageTitle);
-        if (toState.data && toState.data.pageTitle) {
-          element.html(CORE_CONSTANTS.page.title + ' - ' + toState.data.pageTitle);
-        } else {
-          element.html(CORE_CONSTANTS.page.title);
-        }
-      }
-    }
-
-    return directive;
-  }
-})();
-
-(function () {
-  'use strict';
-
-  angular
-    .module('core')
     .factory('menuFactory', menuFactory);
 
   menuFactory.$inject = ['lodash', '$log'];
@@ -491,6 +428,38 @@
     }
 
     return factory;
+  }
+})();
+
+(function() {
+  'use strict';
+
+  angular
+    .module('core.routes')
+    .directive('pageTitle', pageTitle);
+
+  pageTitle.$inject = ['$rootScope', '$state', 'CORE_CONSTANTS', '$log'];
+
+  function pageTitle($rootScope, $state, CORE_CONSTANTS, $log) {
+    var directive = {
+      retrict: 'A',
+      link: link
+    };
+
+    function link(scope, element) {
+      $rootScope.$on('$stateChangeStart', listener);
+
+      function listener(event, toState) {
+        $log.info('Core::Directive::PageTitle', toState.data.pageTitle);
+        if (toState.data && toState.data.pageTitle) {
+          element.html(CORE_CONSTANTS.page.title + ' - ' + toState.data.pageTitle);
+        } else {
+          element.html(CORE_CONSTANTS.page.title);
+        }
+      }
+    }
+
+    return directive;
   }
 })();
 
