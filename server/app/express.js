@@ -91,7 +91,7 @@ function modules(app) {
   return new Promise(function (resolve, reject) {
     winston.debug('Express::Modules::Start');
     let promises = [];
-    globby(config.files.serve.modules.custom)
+    globby(['./modules/*/dist/server/!(*core).module.js'])
       .then(files => {
         files.forEach(file => {
           winston.debug('Express::Module::Match::' + file);
