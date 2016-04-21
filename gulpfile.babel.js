@@ -12,6 +12,7 @@ import mainBowerFiles from 'main-bower-files';
 import templateCache from 'gulp-angular-templatecache';
 import imagemin from 'gulp-imagemin';
 import pngquant from 'imagemin-pngquant';
+import { Server as KarmaServer } from 'karma';
 
 
 function clean() {
@@ -117,6 +118,17 @@ function images() {
 }
 images.displayName = 'images';
 gulp.task(images);
+
+
+function testClientSingle(done) {
+  process.env.NODE_ENV = 'test';
+  new KarmaServer({
+    configFile: process.cwd() + '/tests/karma.conf.js',
+    singleRun: true
+  }, done).start();
+}
+testClientSingle.displayName = 'test:client';
+gulp.task(testClientSingle)
 
 //Gulp Default
 var defaultTask = gulp.series(clean, gulp.parallel(images, templates, client, vendor, server, bootloader, angular));

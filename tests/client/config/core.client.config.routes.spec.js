@@ -39,7 +39,7 @@
       expect(state).to.be.an('object');
       expect(state.url).to.equal('/');
       expect(state.views).to.be.an('object');
-      expect(state.views['main@'].templateUrl).to.equal('modules/core/client/views/core.client.views.home.html');
+      expect(state.views['main@'].templateUrl).to.equal('modern-mean-core-material/views/core.client.views.home.html');
       expect(state.views['main@'].controller).to.equal('HomeController');
       expect(state.views['main@'].controllerAs).to.equal('vm');
     });
@@ -49,7 +49,7 @@
       expect(state).to.be.an('object');
       expect(state.url).to.equal('/not-found');
       expect(state.views).to.be.an('object');
-      expect(state.views['main@'].templateUrl).to.equal('modules/core/client/views/core.client.views.404.html');
+      expect(state.views['main@'].templateUrl).to.equal('modern-mean-core-material/views/core.client.views.404.html');
       expect(state.data).to.be.an('object');
       expect(state.data.ignoreState).to.equal(true);
     });
@@ -59,7 +59,7 @@
       expect(state).to.be.an('object');
       expect(state.url).to.equal('/bad-request');
       expect(state.views).to.be.an('object');
-      expect(state.views['main@'].templateUrl).to.equal('modules/core/client/views/core.client.views.400.html');
+      expect(state.views['main@'].templateUrl).to.equal('modern-mean-core-material/views/core.client.views.400.html');
       expect(state.data).to.be.an('object');
       expect(state.data.ignoreState).to.equal(true);
     });
@@ -69,7 +69,7 @@
       expect(state).to.be.an('object');
       expect(state.url).to.equal('/forbidden');
       expect(state.views).to.be.an('object');
-      expect(state.views['main@'].templateUrl).to.equal('modules/core/client/views/core.client.views.403.html');
+      expect(state.views['main@'].templateUrl).to.equal('modern-mean-core-material/views/core.client.views.403.html');
       expect(state.data).to.be.an('object');
       expect(state.data.ignoreState).to.equal(true);
     });
