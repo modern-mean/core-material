@@ -117,7 +117,7 @@ function core(app) {
   return new Promise(function (resolve, reject) {
     winston.debug('Express::Core::Start');
     //TODO  Change to System.import when its available
-    require(path.resolve(config.files.serve.modules.core)).default.init(app)
+    require('../core.module.js').default.init(app)
       .then(function () {
         winston.verbose('Express::Core::Success');
         return resolve(app);

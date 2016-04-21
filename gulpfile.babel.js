@@ -29,8 +29,11 @@ function lint() {
 lint.displayName = 'lint';
 
 function server() {
-  return gulp.src(['./server/**/*.js'])
+  let filterJS = filter(['**/*.js'], { restore: true });
+  return gulp.src(['./server/**/*.{js,html}'])
+    .pipe(filterJS)
     .pipe(babel())
+    .pipe(filterJS.restore)
     .pipe(gulp.dest('./dist/server'));
 }
 server.displayName = 'server';

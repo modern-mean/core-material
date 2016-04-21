@@ -162,7 +162,7 @@ function core(app) {
   return new Promise(function (resolve, reject) {
     _winston2.default.debug('Express::Core::Start');
     //TODO  Change to System.import when its available
-    require(_path2.default.resolve(_config2.default.files.serve.modules.core)).default.init(app).then(function () {
+    require('../core.module.js').default.init(app).then(function () {
       _winston2.default.verbose('Express::Core::Success');
       return resolve(app);
     }).catch(function (err) {
