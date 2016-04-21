@@ -1,7 +1,7 @@
 {
-  "name": "modern-mean-users",
+  "name": "modern-mean-core-material",
   "version": "0.0.1",
-  "description": "Users Module for ModernMEAN",
+  "description": "ModernMEAN Material Design Core Module",
   "main": "index.js",
   "directories": {
     "test": "tests"
@@ -12,17 +12,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/modern-mean/modern-mean-users.git"
+    "url": "git+https://github.com/modern-mean/modern-mean-core-material.git"
   },
   "keywords": [
-    "Users"
+    "Core"
   ],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/modern-mean/modern-mean-users/issues"
+    "url": "https://github.com/modern-mean/modern-mean-core-material/issues"
   },
-  "homepage": "https://github.com/modern-mean/modern-mean-users#readme",
+  "homepage": "https://github.com/modern-mean/modern-mean-core-material#readme",
   "dependencies": {
     "bower": "~1.7.7",
     "chalk": "~1.1.1",
