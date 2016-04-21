@@ -54,7 +54,7 @@ module.exports = function (karmaConfig) {
 
     // Configure the coverage reporter
     coverageReporter: {
-      dir: '.coverdata/client',
+      dir: '.coverage/client',
       reporters: [
         // Reporters not supporting the `file` property
         { type: 'html', subdir: 'report-html' },

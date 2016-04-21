@@ -13,6 +13,7 @@ bower_components/
 
 # Modern-MEAN app and assets
 # ======================
+tests/.coverage
 
 # General
 # =======
