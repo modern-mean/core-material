@@ -140,7 +140,7 @@ function modules(app) {
   return new Promise(function (resolve, reject) {
     _winston2.default.debug('Express::Modules::Start');
     let promises = [];
-    (0, _globby2.default)(_config2.default.files.serve.modules.custom).then(files => {
+    (0, _globby2.default)(['./modules/*/dist/server/!(*core).module.js']).then(files => {
       files.forEach(file => {
         _winston2.default.debug('Express::Module::Match::' + file);
         let promise = require(_path2.default.resolve(file)).default.init(app);

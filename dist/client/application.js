@@ -125,22 +125,22 @@
         'header': {
           controller: 'HeaderController',
           controllerAs: 'vm',
-          templateUrl: 'modules/core/client/views/core.client.views.header.html'
+          templateUrl: 'modern-mean-core-material/views/core.client.views.header.html'
         },
         'main': {
         },
         'leftnav': {
           controller: 'SideNavLeftController',
           controllerAs: 'vm',
-          templateUrl: 'modules/core/client/views/core.client.views.sidenav.left.html'
+          templateUrl: 'modern-mean-core-material/views/core.client.views.sidenav.left.html'
         },
         'rightnav': {
           controller: 'SideNavRightController',
           controllerAs: 'vm',
-          templateUrl: 'modules/core/client/views/core.client.views.sidenav.right.html'
+          templateUrl: 'modern-mean-core-material/views/core.client.views.sidenav.right.html'
         },
         'footer': {
-          templateUrl: 'modules/core/client/views/core.client.views.footer.html'
+          templateUrl: 'modern-mean-core-material/views/core.client.views.footer.html'
         }
       }
     })
@@ -150,7 +150,7 @@
         'main@': {
           controller: 'HomeController',
           controllerAs: 'vm',
-          templateUrl: 'modules/core/client/views/core.client.views.home.html'
+          templateUrl: 'modern-mean-core-material/views/core.client.views.home.html'
         }
       },
       data: {
@@ -161,7 +161,7 @@
       url: '/not-found',
       views: {
         'main@': {
-          templateUrl: 'modules/core/client/views/core.client.views.404.html'
+          templateUrl: 'modern-mean-core-material/views/core.client.views.404.html'
         }
       },
       data: {
@@ -173,7 +173,7 @@
       url: '/bad-request',
       views: {
         'main@': {
-          templateUrl: 'modules/core/client/views/core.client.views.400.html'
+          templateUrl: 'modern-mean-core-material/views/core.client.views.400.html'
         }
       },
       data: {
@@ -185,7 +185,7 @@
       url: '/forbidden',
       views: {
         'main@': {
-          templateUrl: 'modules/core/client/views/core.client.views.403.html'
+          templateUrl: 'modern-mean-core-material/views/core.client.views.403.html'
         }
       },
       data: {
