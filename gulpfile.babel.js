@@ -47,12 +47,10 @@ function vendor() {
   let filterJS = filter(['**/*.js', '!**/angular.js'], { restore: true });
   return gulp.src(bowerFiles)
     .pipe(filterCSS)
-    .pipe(debug())
     .pipe(concat('vendor.css'))
     .pipe(gulp.dest('./dist/client'))
     .pipe(filterCSS.restore)
     .pipe(filterJS)
-    .pipe(debug())
     .pipe(concat('vendor.js'))
     .pipe(gulp.dest('./dist/client'));
 }
