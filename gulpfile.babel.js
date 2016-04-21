@@ -66,7 +66,7 @@ function client() {
   let filterJS = filter(['**/*.js', '!'], { restore: true }),
     filterCSS = filter(['**/*.css'], { restore: true });
 
-  return gulp.src(['./client/app/core.client.app.loader.js', './client/**/*.{js,css}'])
+  return gulp.src(['./client/app/core.client.app.loader.js', './client/**/*.module.js', './client/**/*.{js,css}'])
     .pipe(filterJS)
     .pipe(concat('application.js'))
     .pipe(gulp.dest('./dist/client'))
