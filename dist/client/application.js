@@ -10,146 +10,6 @@
   'use strict';
 
   angular
-    .module('core.routes')
-    .directive('pageTitle', pageTitle);
-
-  pageTitle.$inject = ['$rootScope', '$state', 'CORE_CONSTANTS', '$log'];
-
-  function pageTitle($rootScope, $state, CORE_CONSTANTS, $log) {
-    var directive = {
-      retrict: 'A',
-      link: link
-    };
-
-    function link(scope, element) {
-      $rootScope.$on('$stateChangeStart', listener);
-
-      function listener(event, toState) {
-        $log.info('Core::Directive::PageTitle', toState.data.pageTitle);
-        if (toState.data && toState.data.pageTitle) {
-          element.html(CORE_CONSTANTS.page.title + ' - ' + toState.data.pageTitle);
-        } else {
-          element.html(CORE_CONSTANTS.page.title);
-        }
-      }
-    }
-
-    return directive;
-  }
-})();
-
-(function () {
-  'use strict';
-
-  angular
-    .module('core')
-    .controller('HeaderController', HeaderController);
-
-  HeaderController.$inject = ['$mdComponentRegistry', '$log'];
-
-  function HeaderController($mdComponentRegistry, $log) {
-    var vm = this;
-
-    vm.navigation = {};
-
-    $mdComponentRegistry
-      .when('coreLeftNav')
-      .then(function(nav) {
-        vm.navigation.left = nav;
-      });
-
-    $mdComponentRegistry
-      .when('coreRightNav')
-      .then(function(nav) {
-        vm.navigation.right = nav;
-      });
-
-    $log.info('HeaderController::Init', vm);
-  }
-})();
-
-(function() {
-  'use strict';
-
-  angular
-    .module('core')
-    .controller('HomeController', HomeController);
-
-  HomeController.$inject = ['$log'];
-
-  function HomeController($log) {
-    var vm = this;
-
-    $log.info('HomeController::Init', vm);
-  }
-})();
-
-(function() {
-  'use strict';
-
-  angular
-    .module('core')
-    .controller('SideNavLeftController', SideNavLeftController);
-
-  SideNavLeftController.$inject = ['$mdComponentRegistry', '$mdMedia', 'CORE_CONSTANTS', '$log'];
-
-  function SideNavLeftController($mdComponentRegistry, $mdMedia, CORE_CONSTANTS, $log) {
-    var vm = this;
-
-    vm.config = CORE_CONSTANTS.navigation.left;
-    vm.isLockedOpen = isLockedOpen;
-
-    $mdComponentRegistry
-      .when('coreLeftNav')
-      .then(function(nav) {
-        vm.navigation = nav;
-      });
-
-    function isLockedOpen() {
-      vm.config.backdrop = CORE_CONSTANTS.navigation.left.backdrop;
-      if (vm.config.locked.always) {
-        vm.config.backdrop = true;
-        return true;
-      }
-
-      if ($mdMedia(vm.config.locked.media)) {
-        vm.config.backdrop = true;
-        return true;
-      }
-
-      return false;
-    }
-
-    $log.info('SideNavLeftController::Init', vm);
-  }
-})();
-
-(function() {
-  'use strict';
-
-  angular
-    .module('core')
-    .controller('SideNavRightController', SideNavRightController);
-
-  SideNavRightController.$inject = ['$mdComponentRegistry', '$log'];
-
-  function SideNavRightController($mdComponentRegistry, $log) {
-    var vm = this;
-
-    $mdComponentRegistry
-      .when('coreRightNav')
-      .then(function(nav) {
-        vm.navigation = nav;
-      });
-
-    $log.info('SideNavRightController::Init', vm);
-  }
-})();
-
-(function() {
-  'use strict';
-
-  angular
     .module('core')
     .constant('CORE_CONSTANTS', {
       page: {
@@ -401,6 +261,208 @@
 
 })();
 
+(function () {
+  'use strict';
+
+  angular
+    .module('core')
+    .controller('HeaderController', HeaderController);
+
+  HeaderController.$inject = ['$mdComponentRegistry', '$log'];
+
+  function HeaderController($mdComponentRegistry, $log) {
+    var vm = this;
+
+    vm.navigation = {};
+
+    $mdComponentRegistry
+      .when('coreLeftNav')
+      .then(function(nav) {
+        vm.navigation.left = nav;
+      });
+
+    $mdComponentRegistry
+      .when('coreRightNav')
+      .then(function(nav) {
+        vm.navigation.right = nav;
+      });
+
+    $log.info('HeaderController::Init', vm);
+  }
+})();
+
+(function() {
+  'use strict';
+
+  angular
+    .module('core')
+    .controller('HomeController', HomeController);
+
+  HomeController.$inject = ['$log'];
+
+  function HomeController($log) {
+    var vm = this;
+
+    $log.info('HomeController::Init', vm);
+  }
+})();
+
+(function() {
+  'use strict';
+
+  angular
+    .module('core')
+    .controller('SideNavLeftController', SideNavLeftController);
+
+  SideNavLeftController.$inject = ['$mdComponentRegistry', '$mdMedia', 'CORE_CONSTANTS', '$log'];
+
+  function SideNavLeftController($mdComponentRegistry, $mdMedia, CORE_CONSTANTS, $log) {
+    var vm = this;
+
+    vm.config = CORE_CONSTANTS.navigation.left;
+    vm.isLockedOpen = isLockedOpen;
+
+    $mdComponentRegistry
+      .when('coreLeftNav')
+      .then(function(nav) {
+        vm.navigation = nav;
+      });
+
+    function isLockedOpen() {
+      vm.config.backdrop = CORE_CONSTANTS.navigation.left.backdrop;
+      if (vm.config.locked.always) {
+        vm.config.backdrop = true;
+        return true;
+      }
+
+      if ($mdMedia(vm.config.locked.media)) {
+        vm.config.backdrop = true;
+        return true;
+      }
+
+      return false;
+    }
+
+    $log.info('SideNavLeftController::Init', vm);
+  }
+})();
+
+(function() {
+  'use strict';
+
+  angular
+    .module('core')
+    .controller('SideNavRightController', SideNavRightController);
+
+  SideNavRightController.$inject = ['$mdComponentRegistry', '$log'];
+
+  function SideNavRightController($mdComponentRegistry, $log) {
+    var vm = this;
+
+    $mdComponentRegistry
+      .when('coreRightNav')
+      .then(function(nav) {
+        vm.navigation = nav;
+      });
+
+    $log.info('SideNavRightController::Init', vm);
+  }
+})();
+
+(function() {
+  'use strict';
+
+  angular
+    .module('core.routes')
+    .directive('pageTitle', pageTitle);
+
+  pageTitle.$inject = ['$rootScope', '$state', 'CORE_CONSTANTS', '$log'];
+
+  function pageTitle($rootScope, $state, CORE_CONSTANTS, $log) {
+    var directive = {
+      retrict: 'A',
+      link: link
+    };
+
+    function link(scope, element) {
+      $rootScope.$on('$stateChangeStart', listener);
+
+      function listener(event, toState) {
+        $log.info('Core::Directive::PageTitle', toState.data.pageTitle);
+        if (toState.data && toState.data.pageTitle) {
+          element.html(CORE_CONSTANTS.page.title + ' - ' + toState.data.pageTitle);
+        } else {
+          element.html(CORE_CONSTANTS.page.title);
+        }
+      }
+    }
+
+    return directive;
+  }
+})();
+
+(function () {
+  'use strict';
+
+  angular
+    .module('core')
+    .factory('menuFactory', menuFactory);
+
+  menuFactory.$inject = ['lodash', '$log'];
+  function menuFactory(lodash, $log) {
+    var factory = {
+      toolbar: {
+        items: [],
+        addItem: addItem,
+        removeItem: removeItem,
+        getItem: getItem
+      },
+      sidenavleft: {
+        items: [],
+        addItem: addItem,
+        removeItem: removeItem,
+        getItem: getItem
+      },
+      sidenavright: {
+        items: [],
+        addItem: addItem,
+        removeItem: removeItem,
+        getItem: getItem
+      }
+    };
+
+    function addItem(item) {
+      var menu = this.getItem(item);  // jshint ignore:line
+
+      if (menu) {
+        $log.info('Menu Exists:' , menu);
+        return menu;
+      }
+
+      item.addItem = addItem;
+      item.getItem = getItem;
+      item.removeItem = removeItem;
+      this.items.push(item);  // jshint ignore:line
+    }
+
+    function getItem(find) {
+      return lodash.find(this.items, find);  // jshint ignore:line
+    }
+
+    function removeItem(find) {
+      if (this.items) {  // jshint ignore:line
+        var item = lodash.find(this.items, find); // jshint ignore:line
+
+        if (item !== undefined) {
+          return this.items.splice(this.items.indexOf(item), 1); // jshint ignore:line
+        }
+      }
+    }
+
+    return factory;
+  }
+})();
+
 (function() {
   'use strict';
 
@@ -527,67 +589,5 @@
     }
 
     return service;
-  }
-})();
-
-(function () {
-  'use strict';
-
-  angular
-    .module('core')
-    .factory('menuFactory', menuFactory);
-
-  menuFactory.$inject = ['lodash', '$log'];
-  function menuFactory(lodash, $log) {
-    var factory = {
-      toolbar: {
-        items: [],
-        addItem: addItem,
-        removeItem: removeItem,
-        getItem: getItem
-      },
-      sidenavleft: {
-        items: [],
-        addItem: addItem,
-        removeItem: removeItem,
-        getItem: getItem
-      },
-      sidenavright: {
-        items: [],
-        addItem: addItem,
-        removeItem: removeItem,
-        getItem: getItem
-      }
-    };
-
-    function addItem(item) {
-      var menu = this.getItem(item);  // jshint ignore:line
-
-      if (menu) {
-        $log.info('Menu Exists:' , menu);
-        return menu;
-      }
-
-      item.addItem = addItem;
-      item.getItem = getItem;
-      item.removeItem = removeItem;
-      this.items.push(item);  // jshint ignore:line
-    }
-
-    function getItem(find) {
-      return lodash.find(this.items, find);  // jshint ignore:line
-    }
-
-    function removeItem(find) {
-      if (this.items) {  // jshint ignore:line
-        var item = lodash.find(this.items, find); // jshint ignore:line
-
-        if (item !== undefined) {
-          return this.items.splice(this.items.indexOf(item), 1); // jshint ignore:line
-        }
-      }
-    }
-
-    return factory;
   }
 })();

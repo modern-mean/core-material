@@ -3,6 +3,7 @@
 import gulp from 'gulp';
 import babel from 'gulp-babel';
 import concat from 'gulp-concat';
+import debug from 'gulp-debug';
 import eslint from 'gulp-eslint';
 import filter from 'gulp-filter';
 import rename from 'gulp-rename';
@@ -42,16 +43,16 @@ gulp.task(server);
 
 function vendor() {
   let bowerFiles = mainBowerFiles();
-  let angularJS = filter(['**/angular.js'], { restore: true });
   let filterCSS = filter(['**/*.css'], { restore: true });
+  let filterJS = filter(['**/*.js', '!**/angular.js'], { restore: true });
   return gulp.src(bowerFiles)
-    .pipe(angularJS)
-    .pipe(gulp.dest('./dist/client'))
-    .pipe(angularJS.restore)
     .pipe(filterCSS)
+    .pipe(debug())
     .pipe(concat('vendor.css'))
     .pipe(gulp.dest('./dist/client'))
     .pipe(filterCSS.restore)
+    .pipe(filterJS)
+    .pipe(debug())
     .pipe(concat('vendor.js'))
     .pipe(gulp.dest('./dist/client'));
 }
@@ -76,6 +77,17 @@ function bootloader() {
 }
 bootloader.displayName = 'bootloader';
 gulp.task(bootloader);
+
+function angular() {
+  let bowerFiles = mainBowerFiles();
+  let angularJS = filter(['**/angular.js'], { restore: false });
+  return gulp.src(bowerFiles)
+    .pipe(angularJS)
+    .pipe(rename('angular.js'))
+    .pipe(gulp.dest('./dist/client'));
+}
+angular.displayName = 'angular';
+gulp.task(angular);
 
 function client() {
   let filterJS = filter(['**/*.js'], { restore: true }),
@@ -109,7 +121,7 @@ images.displayName = 'images';
 gulp.task(images);
 
 //Gulp Default
-var defaultTask = gulp.series(clean, gulp.parallel(images, templates, client, vendor, server, bootloader));
+var defaultTask = gulp.series(clean, gulp.parallel(images, templates, client, vendor, server, bootloader, angular));
 defaultTask.displayName = 'default';
 gulp.task(defaultTask);
 
