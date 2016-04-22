@@ -174,3 +174,8 @@ gulp.task(defaultTask);
 var lint = gulp.series(lint);
 lint.displayName = 'lint';
 gulp.task(lint);
+
+//Gulp Test
+var testTask = gulp.series(clean, defaultTask, lint, testClientSingle, testServerSingle);
+testTask.displayName = 'test';
+gulp.task(testTask);

@@ -3,7 +3,7 @@
 import winston from 'winston';
 import { config } from '../config/config';
 
-let logger
+let logger;
 
 function init() {
   return new Promise((resolve, reject) => {

@@ -14,11 +14,6 @@ var _winston4 = _interopRequireDefault(_winston3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-process.on('uncaughtException', function (error) {
-  _winston2.default.error('ERROR!!!');
-  _winston2.default.error(error.stack);
-});
-
 _winston4.default.init().then(_init2.default.start).then(function (app) {
   _winston2.default.info('Modern-MEAN started Successfully');
 }).catch(function (err) {
