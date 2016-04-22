@@ -21,9 +21,7 @@ var _winston = require('winston');
 
 var _winston2 = _interopRequireDefault(_winston);
 
-var _config = require('modernMean/config');
-
-var _config2 = _interopRequireDefault(_config);
+var _config = require('../config/config');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40,7 +38,7 @@ function connect() {
       return resolve(_mongoose2.default);
     }
 
-    _mongoose2.default.connect(_config2.default.db.uri, _config2.default.db.options, function (err) {
+    _mongoose2.default.connect(_config.config.mongoose.uri + _config.config.mongoose.db, _config.config.mongoose.options, function (err) {
       if (err) {
         return reject(err);
       }

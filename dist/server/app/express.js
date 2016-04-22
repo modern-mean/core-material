@@ -41,9 +41,7 @@ var _globby = require('globby');
 
 var _globby2 = _interopRequireDefault(_globby);
 
-var _config = require('modernMean/config');
-
-var _config2 = _interopRequireDefault(_config);
+var _config = require('../config/config');
 
 var _serverDestroy = require('server-destroy');
 
@@ -73,10 +71,10 @@ let httpServer, httpsServer, expressApp;
 function variables(app) {
   return new Promise(function (resolve, reject) {
     _winston2.default.debug('Express::Variables::Start');
-    app.locals.title = _config2.default.app.title;
-    app.locals.description = _config2.default.app.description;
-    app.locals.logo = _config2.default.logo;
-    app.locals.favicon = _config2.default.favicon;
+    app.locals.title = _config.config.app.title;
+    app.locals.description = _config.config.app.description;
+    app.locals.logo = _config.config.logo;
+    app.locals.favicon = _config.config.favicon;
     _winston2.default.verbose('Express::Variables::Success');
     return resolve(app);
   });
@@ -85,9 +83,9 @@ function variables(app) {
 function middleware(app) {
   return new Promise(function (resolve, reject) {
     _winston2.default.debug('Express::Middleware::Start');
-    app.use((0, _morgan2.default)(_config2.default.logs.morgan.format, _config2.default.logs.morgan.options));
+    app.use((0, _morgan2.default)(_config.config.logs.morgan.format, _config.config.logs.morgan.options));
 
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.MEAN_CORE_LIVERELOAD) {
       app.use((0, _connectLivereload2.default)());
     }
 
@@ -97,9 +95,9 @@ function middleware(app) {
 
     app.use(_bodyParser2.default.json());
 
-    if (_config2.default.express.https.enable) {
+    if (_config.config.express.https.enable) {
       app.set('forceSSLOptions', {
-        httpsPort: _config2.default.express.https.port
+        httpsPort: _config.config.express.https.port
       });
 
       app.use(_expressForceSsl2.default);
@@ -117,7 +115,7 @@ function engine(app) {
   return new Promise(function (resolve, reject) {
     _winston2.default.debug('Express::Engine::Start');
     // Set swig as the template engine
-    app.engine('server.view.html', _consolidate2.default[_config2.default.express.engine]);
+    app.engine('server.view.html', _consolidate2.default['swig']);
 
     // Set views path and view engine
     app.set('view engine', 'server.view.html');
@@ -140,7 +138,7 @@ function modules(app) {
   return new Promise(function (resolve, reject) {
     _winston2.default.debug('Express::Modules::Start');
     let promises = [];
-    (0, _globby2.default)(['./modules/*/dist/server/!(*core).module.js']).then(files => {
+    (0, _globby2.default)(_config.config.modules.custom).then(files => {
       files.forEach(file => {
         _winston2.default.debug('Express::Module::Match::' + file);
         let promise = require(_path2.default.resolve(file)).default.init(app);
@@ -162,7 +160,7 @@ function core(app) {
   return new Promise(function (resolve, reject) {
     _winston2.default.debug('Express::Core::Start');
     //TODO  Change to System.import when its available
-    require('../core.module.js').default.init(app).then(function () {
+    require(_config.config.modules.core).default.init(app).then(function () {
       _winston2.default.verbose('Express::Core::Success');
       return resolve(app);
     }).catch(function (err) {
@@ -176,7 +174,7 @@ function listen(app) {
   _winston2.default.debug('Express::Listen::Start');
   let httpServerPromise = new Promise(function (resolve, reject) {
 
-    httpServer.listen(_config2.default.express.http.port, _config2.default.express.host, () => {
+    httpServer.listen(_config.config.express.http.port, _config.config.express.host, () => {
       /* istanbul ignore else: cant test this since production server cant be destroyed  */
       if (process.env.NODE_ENV !== 'production') {
         (0, _serverDestroy2.default)(httpServer);
@@ -186,11 +184,11 @@ function listen(app) {
   });
 
   let httpsServerPromise = new Promise(function (resolve, reject) {
-    if (!_config2.default.express.https.enable) {
+    if (!_config.config.express.https.enable) {
       return resolve();
     }
 
-    httpsServer.listen(_config2.default.express.https.port, _config2.default.express.host, () => {
+    httpsServer.listen(_config.config.express.https.port, _config.config.express.host, () => {
       /* istanbul ignore else: cant test this since production server cant be destroyed  */
       if (process.env.NODE_ENV !== 'production') {
         (0, _serverDestroy2.default)(httpsServer);
@@ -201,12 +199,11 @@ function listen(app) {
 
   return Promise.all([httpServerPromise, httpsServerPromise]).then(promises => {
     _winston2.default.info('--');
-    _winston2.default.info(_config2.default.app.title);
+    _winston2.default.info(_config.config.app.title);
     _winston2.default.info('Environment:     ' + process.env.NODE_ENV);
-    _winston2.default.info('App version:     ' + _config2.default.app.version);
-    _winston2.default.info('Database:        ' + _config2.default.db.uri);
+    _winston2.default.info('Database:        ' + _config.config.mongoose.uri + _config.config.mongoose.db);
     _winston2.default.info('HTTP Server:     http://' + httpServer.address().address + ':' + httpServer.address().port);
-    if (_config2.default.express.https.enable) {
+    if (_config.config.express.https.enable) {
       _winston2.default.info('HTTPS Server:    https://' + httpsServer.address().address + ':' + httpsServer.address().port);
     }
     _winston2.default.info('--');
@@ -216,16 +213,16 @@ function listen(app) {
 
 function init() {
   return new Promise(function (resolve, reject) {
-    _winston2.default.debug('Express::Init::Start');
+    _winston2.default.debug('Express::Init::Start', _config.config.express.https);
     if (expressApp !== undefined || httpsServer !== undefined || httpServer !== undefined) {
       return reject('Express::Init::Error::Server is still running.');
     }
     expressApp = (0, _express2.default)();
     httpServer = _http2.default.createServer(expressApp);
-    if (_config2.default.express.https.enable) {
+    if (_config.config.express.https.enable) {
       let httpsOptions = {
-        key: _fs2.default.readFileSync(_config2.default.express.https.options.key),
-        cert: _fs2.default.readFileSync(_config2.default.express.https.options.cert)
+        key: _fs2.default.readFileSync(_config.config.express.https.options.key),
+        cert: _fs2.default.readFileSync(_config.config.express.https.options.cert)
       };
       httpsServer = _https2.default.createServer(httpsOptions, expressApp);
     }
