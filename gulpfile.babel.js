@@ -7,6 +7,7 @@ import debug from 'gulp-debug';
 import eslint from 'gulp-eslint';
 import filter from 'gulp-filter';
 import rename from 'gulp-rename';
+import coveralls from 'gulp-coveralls';
 import del from 'del';
 import mainBowerFiles from 'main-bower-files';
 import templateCache from 'gulp-angular-templatecache';
@@ -166,9 +167,9 @@ testServerSingle.displayName = 'test:server';
 gulp.task(testServerSingle);
 
 
-function sendCoveralls(done) {
-  if (!process.env.CI) return done();
+function sendCoveralls() {
   return gulp.src('tests/.coverage/**/lcov.info')
+    .pipe(debug())
     .pipe(concat('lcov.info'))
     .pipe(coveralls());
 }
