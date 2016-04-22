@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "npm test",
+    "test": "gulp test",
     "postinstall": "bower install --config.interactive=false"
   },
   "repository": {
