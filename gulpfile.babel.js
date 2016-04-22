@@ -165,6 +165,17 @@ function testServerSingle(done) {
 testServerSingle.displayName = 'test:server';
 gulp.task(testServerSingle);
 
+
+function sendCoveralls(done) {
+  if (!process.env.CI) return done();
+  return gulp.src('tests/.coverage/**/lcov.info')
+    .pipe(concat('lcov.info'))
+    .pipe(coveralls());
+}
+sendCoveralls.displayName = 'coveralls';
+gulp.task(sendCoveralls);
+
+
 //Gulp Default
 var defaultTask = gulp.series(clean, gulp.parallel(images, templates, client, vendor, server, bootloader, angular));
 defaultTask.displayName = 'default';

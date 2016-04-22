@@ -35,7 +35,7 @@ before_install:
 #  - sleep 3
 after_script:
   - nsp audit-package
-#  - grunt coverage
+  - gulp coveralls
 notifications:
   webhooks:
     urls:
