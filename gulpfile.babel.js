@@ -13,7 +13,10 @@ import templateCache from 'gulp-angular-templatecache';
 import imagemin from 'gulp-imagemin';
 import pngquant from 'imagemin-pngquant';
 import { Server as KarmaServer } from 'karma';
+import istanbul from 'gulp-istanbul';
+import mocha from 'gulp-mocha';
 
+var isparta = require('isparta');
 
 function clean() {
   return del([
@@ -128,7 +131,39 @@ function testClientSingle(done) {
   }, done).start();
 }
 testClientSingle.displayName = 'test:client';
-gulp.task(testClientSingle)
+gulp.task(testClientSingle);
+
+function testServerSingle(done) {
+  gulp.src(['./server/**/*.js'])
+  	.pipe(istanbul({
+      instrumenter: isparta.Instrumenter,
+      includeUntested: true
+    }))
+  	.pipe(istanbul.hookRequire()) // or you could use .pipe(injectModules())
+  	.on('finish', function () {
+  	  gulp.src(['./tests/server/**/*.js'])
+      //.pipe(injectModules())
+  		.pipe(mocha({
+        reporter: 'spec',
+        require: ['./tests/mocha.setup'],
+      }))
+  		.pipe(istanbul.writeReports(
+        {
+          dir: './tests/.coverage/server',
+          reporters: [ 'lcov', 'html', 'text' ]
+        }
+      ))
+      .once('error', () => {
+        process.exit(1);
+        return done();
+      })
+      .once('end', () => {
+        return done();
+      });
+  	});
+}
+testServerSingle.displayName = 'test:server';
+gulp.task(testServerSingle);
 
 //Gulp Default
 var defaultTask = gulp.series(clean, gulp.parallel(images, templates, client, vendor, server, bootloader, angular));

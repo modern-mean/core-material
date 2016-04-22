@@ -9,15 +9,12 @@ module.exports = function (karmaConfig) {
 
   karmaFiles.push('karma.setup.js');
   karmaFiles.push('../dist/client/angular.js');
-  //karmaFiles.push('../dist/client/bootloader.js');
   karmaFiles.push('../bower_components/angular-mocks/angular-mocks.js');
   karmaFiles.push('../bower_components/angular-material/angular-material-mocks.js');
   karmaFiles = lodash.union(karmaFiles, ['../client/app/core.client.app.loader.js', '../client/**/*.module.js', '../client/**/!(*module).js', '../tests/client/**/*.js']);
   karmaFiles.push('../dist/client/vendor.js');
   karmaFiles.push('../dist/client/templates.js');
-  //karmaFiles.push('modules/core/client/app/core.client.app.loader.js');
-  //karmaFiles.push('modules/core/client/app/core.client.app.loader.spec.js');
-  //console.log('Karma::Files', karmaFiles);
+
 
   karmaConfig.set({
     client: {

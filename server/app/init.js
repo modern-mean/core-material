@@ -3,7 +3,6 @@
 import winston from 'winston';
 import mongooseModule from './mongoose';
 import express from './express';
-import config from 'modernMean/config';
 
 function start() {
   /*

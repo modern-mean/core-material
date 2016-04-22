@@ -34,6 +34,10 @@ describe('/modules/core/server/app/init.js', () => {
         mockExpress = sandbox.stub(expressModule, 'init').rejects();
       });
 
+      afterEach(() => {
+        return app.stop();
+      });
+
       it('should reject the promise', () => {
         return app.start().should.be.rejected;
       });
@@ -59,6 +63,10 @@ describe('/modules/core/server/app/init.js', () => {
         return app.start();
       });
 
+      afterEach(() => {
+        return app.stop();
+      });
+
       it('should initialize express', () => {
         initStub.should.have.been.called;
         middlewareStub.should.have.been.called;
@@ -79,17 +87,18 @@ describe('/modules/core/server/app/init.js', () => {
 
     describe('agent', () => {
 
-      beforeEach(() => {
-        return app.start();
-      });
-
-      afterEach(() => {
-        return app.stop();
-      });
-
       describe('http', () => {
 
+        before(() => {
+          return app.start();
+        });
+
+        after(() => {
+          return app.stop();
+        });
+
         it('should start the http server and be listening', done => {
+
           request(expressModule.expressApp())
             .get('/')
             .expect(200, done);
@@ -100,11 +109,15 @@ describe('/modules/core/server/app/init.js', () => {
       describe('https', () => {
 
         before(() => {
-          config.express.https.enable = true;
+          process.env.MEAN_CORE_HTTPS = true;
+          config.load();
+          return app.start();
         });
 
         after(() => {
-          config.express.https.enable = false;
+          delete process.env.MEAN_CORE_HTTPS;
+          config.load();
+          return app.stop();
         });
 
         it('should start the http server and force redirect', done => {

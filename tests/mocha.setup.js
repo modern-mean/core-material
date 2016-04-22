@@ -4,8 +4,8 @@ import sinonChai from 'sinon-chai';
 import sinonPromised from 'sinon-as-promised';
 import promised from 'chai-as-promised';
 import request from 'supertest';
-import config from 'modernMean/config';
 import winston from '../server/app/winston';
+import * as config from '../server/config/config'
 
 winston.init();
 
@@ -17,3 +17,8 @@ global.should = chai.should();
 global.sinon = sinon;
 global.request = request;
 global.config = config;
+
+process.env.MEAN_CORE_HTTPS_PORT = 8444;
+process.env.MEAN_CORE_HTTP_PORT = 8081;
+
+config.load();

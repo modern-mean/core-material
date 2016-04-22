@@ -5,7 +5,7 @@ import winston from 'winston';
 
 let sandbox;
 
-describe('/modules/core/server/app/winston.js', () => {
+xdescribe('/modules/core/server/app/winston.js', () => {
 
   beforeEach(() => {
     return sandbox = sinon.sandbox.create();

@@ -82,13 +82,15 @@ describe('/modules/core/server/app/express.js', () => {
         let promise;
 
         before(() => {
-          config.express.https.enable = true;
+          process.env.MEAN_CORE_HTTPS = true;
+          config.load();
           promise = expressModule.init();
           return promise;
         });
 
         after(() => {
-          config.express.https.enable = false;
+          delete process.env.MEAN_CORE_HTTPS;
+          config.load();
           return expressModule.destroy();
         });
 
@@ -201,11 +203,13 @@ describe('/modules/core/server/app/express.js', () => {
     describe('https', () => {
 
       before(() => {
-        config.express.https.enable = true;
+        process.env.MEAN_CORE_HTTPS = true;
+        config.load();
       });
 
       after(() => {
-        config.express.https.enable = true;
+        delete process.env.MEAN_CORE_HTTPS;
+        config.load();
       });
 
       it('should resolve a promise on success', () => {
@@ -271,15 +275,15 @@ describe('/modules/core/server/app/express.js', () => {
   describe('modules()', () => {
 
     describe('success', () => {
-      let saveConfig;
 
       beforeEach(() => {
-        saveConfig = config.files.serve.modules.custom;
-        config.files.serve.modules.custom = ['./modules/core/tests/server/resolveModule.js'];
+        process.env.MEAN_CORE_MODULES_CUSTOM = ['tests/server/resolveModule.js'];
+        config.load();
       });
 
       afterEach(() => {
-        config.files.serve.modules.custom = saveConfig;
+        delete process.env.MEAN_CORE_MODULES_CUSTOM;
+        config.load();
       });
 
       it('should resolve a promise on success', () => {
@@ -290,14 +294,15 @@ describe('/modules/core/server/app/express.js', () => {
     });
 
     describe('error', () => {
-      let saveConfig;
+
       beforeEach(() => {
-        saveConfig = config.files.serve.modules.custom;
-        config.files.serve.modules.custom = ['./modules/core/tests/server/rejectModule.js'];
+        process.env.MEAN_CORE_MODULES_CUSTOM = ['tests/server/rejectModule.js'];
+        config.load();
       });
 
       afterEach(() => {
-        config.files.serve.modules.custom = saveConfig;
+        delete process.env.MEAN_CORE_MODULES_CUSTOM;
+        config.load();
       });
 
       it('should reject a promise', () => {
@@ -325,14 +330,15 @@ describe('/modules/core/server/app/express.js', () => {
     });
 
     describe('error', () => {
-      let saveConfig;
+
       beforeEach(() => {
-        saveConfig = config.files.serve.modules.core;
-        config.files.serve.modules.core = './modules/core/tests/server/rejectModule.js';
+        process.env.MEAN_CORE_MODULES_CORE = './modules/core/tests/server/rejectModule.js';
+        config.load();
       });
 
       afterEach(() => {
-        config.files.serve.modules.core = saveConfig;
+        delete process.env.MEAN_CORE_MODULES_CORE;
+        config.load();
       });
 
       it('should reject a promise', () => {
@@ -378,14 +384,16 @@ describe('/modules/core/server/app/express.js', () => {
       describe('https', () => {
 
         before(() => {
-          config.express.https.enable = true;
+          process.env.MEAN_CORE_HTTPS = true;
+          config.load();
           promise = expressModule.init()
             .then(expressModule.listen);
           return promise;
         });
 
         after(() => {
-          config.express.https.enable = false;
+          delete process.env.MEAN_CORE_HTTPS;
+          config.load();
           return expressModule.destroy();
         });
 
@@ -465,11 +473,13 @@ describe('/modules/core/server/app/express.js', () => {
       describe('https', () => {
 
         before(() => {
-          config.express.https.enable = true;
+          process.env.MEAN_CORE_HTTPS = true;
+          config.load();
         });
 
         after(() => {
-          config.express.https.enable = false;
+          delete process.env.MEAN_CORE_HTTPS;
+          config.load();
         });
 
         beforeEach(() => {

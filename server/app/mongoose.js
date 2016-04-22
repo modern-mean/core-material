@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import globby from 'globby';
 import path from 'path';
 import winston from 'winston';
-import config from 'modernMean/config';
+import { config } from '../config/config';
 
 mongoose.Promise = global.Promise;
 
@@ -19,7 +19,7 @@ function connect() {
       return resolve(mongoose);
     }
 
-    mongoose.connect(config.db.uri, config.db.options, function (err) {
+    mongoose.connect(config.mongoose.uri + config.mongoose.db, config.mongoose.options, function (err) {
       if (err) {
         return reject(err);
       }

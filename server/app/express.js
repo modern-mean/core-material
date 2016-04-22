@@ -9,7 +9,7 @@ import helmet from 'helmet';
 import consolidate from 'consolidate';
 import path from 'path';
 import globby from 'globby';
-import config from 'modernMean/config';
+import { config } from '../config/config';
 import enableDestroy from 'server-destroy';
 import morgan from 'morgan';
 import livereload from 'connect-livereload';
@@ -38,7 +38,7 @@ function middleware(app) {
     winston.debug('Express::Middleware::Start');
     app.use(morgan(config.logs.morgan.format, config.logs.morgan.options));
 
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.MEAN_CORE_LIVERELOAD) {
       app.use(livereload());
     }
 
@@ -68,7 +68,7 @@ function engine(app) {
   return new Promise(function (resolve, reject) {
     winston.debug('Express::Engine::Start');
     // Set swig as the template engine
-    app.engine('server.view.html', consolidate[config.express.engine]);
+    app.engine('server.view.html', consolidate['swig']);
 
     // Set views path and view engine
     app.set('view engine', 'server.view.html');
@@ -91,7 +91,7 @@ function modules(app) {
   return new Promise(function (resolve, reject) {
     winston.debug('Express::Modules::Start');
     let promises = [];
-    globby(['./modules/*/dist/server/!(*core).module.js'])
+    globby(config.modules.custom)
       .then(files => {
         files.forEach(file => {
           winston.debug('Express::Module::Match::' + file);
@@ -117,7 +117,7 @@ function core(app) {
   return new Promise(function (resolve, reject) {
     winston.debug('Express::Core::Start');
     //TODO  Change to System.import when its available
-    require('../core.module.js').default.init(app)
+    require(config.modules.core).default.init(app)
       .then(function () {
         winston.verbose('Express::Core::Success');
         return resolve(app);
@@ -163,8 +163,7 @@ function listen(app) {
             winston.info('--');
             winston.info(config.app.title);
             winston.info('Environment:     ' + process.env.NODE_ENV);
-            winston.info('App version:     ' + config.app.version);
-            winston.info('Database:        ' + config.db.uri);
+            winston.info('Database:        ' + config.mongoose.uri + config.mongoose.db);
             winston.info('HTTP Server:     http://' + httpServer.address().address + ':' + httpServer.address().port);
             if (config.express.https.enable) {
               winston.info('HTTPS Server:    https://' + httpsServer.address().address + ':' + httpsServer.address().port);
@@ -176,7 +175,7 @@ function listen(app) {
 
 function init() {
   return new Promise(function (resolve, reject) {
-    winston.debug('Express::Init::Start');
+    winston.debug('Express::Init::Start', config.express.https);
     if (expressApp !== undefined || httpsServer !== undefined || httpServer !== undefined) {
       return reject('Express::Init::Error::Server is still running.');
     }
