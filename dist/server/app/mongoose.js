@@ -17,9 +17,9 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
-var _winston = require('winston');
+var _logger = require('./logger');
 
-var _winston2 = _interopRequireDefault(_winston);
+var _logger2 = _interopRequireDefault(_logger);
 
 var _config = require('../config/config');
 
@@ -34,7 +34,7 @@ function connect() {
   return new Promise((resolve, reject) => {
 
     if (_mongoose2.default.connection.readyState !== 0) {
-      _winston2.default.info('Mongoose::Connect::Already Connected');
+      _logger2.default.info('Mongoose::Connect::Already Connected');
       return resolve(_mongoose2.default);
     }
 
@@ -45,7 +45,7 @@ function connect() {
     });
 
     _mongoose2.default.connection.once('connected', function () {
-      _winston2.default.info('Mongoose::Connect::Success');
+      _logger2.default.info('Mongoose::Connect::Success');
       return resolve(_mongoose2.default);
     });
   });
@@ -53,9 +53,9 @@ function connect() {
 
 function disconnect() {
   return new Promise(function (resolve, reject) {
-    _winston2.default.debug('Mongoose::Disconnect::Start');
+    _logger2.default.debug('Mongoose::Disconnect::Start');
     if (_mongoose2.default.connection.readyState === 0) {
-      _winston2.default.info('Mongoose::Disconnect::Not Connected');
+      _logger2.default.info('Mongoose::Disconnect::Not Connected');
       return resolve();
     }
 
@@ -66,7 +66,7 @@ function disconnect() {
     });
 
     _mongoose2.default.connection.once('disconnected', function () {
-      _winston2.default.info('Mongoose::Disconnect::Success');
+      _logger2.default.info('Mongoose::Disconnect::Success');
       db = undefined;
       return resolve();
     });

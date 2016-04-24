@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.stop = exports.start = undefined;
 
-var _winston = require('winston');
+var _logger = require('./logger');
 
-var _winston2 = _interopRequireDefault(_winston);
+var _logger2 = _interopRequireDefault(_logger);
 
 var _mongoose = require('./mongoose');
 
@@ -45,10 +45,10 @@ function start() {
         return app;
       });
     }).then(_express2.default.modules).then(_express2.default.core).then(_express2.default.listen).then(function (app) {
-      _winston2.default.verbose('Express::Done::Success');
+      _logger2.default.verbose('Express::Done::Success');
       resolve(app);
     }).catch(function (err) {
-      _winston2.default.error(err);
+      _logger2.default.error(err);
       reject(err);
     });
   });
@@ -59,10 +59,10 @@ function start() {
 function stop() {
   return new Promise(function (resolve, reject) {
     Promise.all([_express2.default.destroy(), _mongoose2.default.disconnect()]).then(function () {
-      _winston2.default.verbose('MEAN::Stop::Success');
+      _logger2.default.verbose('MEAN::Stop::Success');
       resolve();
     }).catch(function (err) {
-      _winston2.default.error(err);
+      _logger2.default.error(err);
       reject(err);
     });
   });

@@ -17,9 +17,9 @@ var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
 
-var _winston = require('winston');
+var _logger = require('./logger');
 
-var _winston2 = _interopRequireDefault(_winston);
+var _logger2 = _interopRequireDefault(_logger);
 
 var _bodyParser = require('body-parser');
 
@@ -70,19 +70,19 @@ let httpServer, httpsServer, expressApp;
 
 function variables(app) {
   return new Promise(function (resolve, reject) {
-    _winston2.default.debug('Express::Variables::Start');
+    _logger2.default.debug('Express::Variables::Start');
     app.locals.title = _config.config.app.title;
     app.locals.description = _config.config.app.description;
     app.locals.logo = _config.config.logo;
     app.locals.favicon = _config.config.favicon;
-    _winston2.default.verbose('Express::Variables::Success');
+    _logger2.default.verbose('Express::Variables::Success');
     return resolve(app);
   });
 }
 
 function middleware(app) {
   return new Promise(function (resolve, reject) {
-    _winston2.default.debug('Express::Middleware::Start');
+    _logger2.default.debug('Express::Middleware::Start');
     app.use((0, _morgan2.default)(_config.config.logs.morgan.format, _config.config.logs.morgan.options));
 
     if (process.env.MEAN_CORE_LIVERELOAD) {
@@ -103,7 +103,7 @@ function middleware(app) {
       app.use(_expressForceSsl2.default);
     }
 
-    _winston2.default.verbose('Express::Middleware::Success');
+    _logger2.default.verbose('Express::Middleware::Success');
     return resolve(app);
   });
 }
@@ -113,43 +113,43 @@ function middleware(app) {
  */
 function engine(app) {
   return new Promise(function (resolve, reject) {
-    _winston2.default.debug('Express::Engine::Start');
+    _logger2.default.debug('Express::Engine::Start');
     // Set swig as the template engine
     app.engine('server.view.html', _consolidate2.default['swig']);
 
     // Set views path and view engine
     app.set('view engine', 'server.view.html');
     app.set('views', './');
-    _winston2.default.verbose('Express::Engine::Success');
+    _logger2.default.verbose('Express::Engine::Success');
     return resolve(app);
   });
 }
 
 function headers(app) {
   return new Promise(function (resolve, reject) {
-    _winston2.default.debug('Express::Headers::Start');
+    _logger2.default.debug('Express::Headers::Start');
     app.use((0, _helmet2.default)());
-    _winston2.default.verbose('Express::Headers::Success');
+    _logger2.default.verbose('Express::Headers::Success');
     return resolve(app);
   });
 }
 
 function modules(app) {
   return new Promise(function (resolve, reject) {
-    _winston2.default.debug('Express::Modules::Start');
+    _logger2.default.debug('Express::Modules::Start');
     let promises = [];
     (0, _globby2.default)(_config.config.modules.custom).then(files => {
       files.forEach(file => {
-        _winston2.default.debug('Express::Module::Match::' + file);
+        _logger2.default.debug('Express::Module::Match::' + file);
         let promise = require(_path2.default.resolve(file)).default.init(app);
         promises.push(promise);
       });
 
       Promise.all(promises).then(function () {
-        _winston2.default.verbose('Express::Modules::Success');
+        _logger2.default.verbose('Express::Modules::Success');
         resolve(app);
       }).catch(function (err) {
-        _winston2.default.error(err);
+        _logger2.default.error(err);
         reject(err);
       });
     });
@@ -158,20 +158,20 @@ function modules(app) {
 
 function core(app) {
   return new Promise(function (resolve, reject) {
-    _winston2.default.debug('Express::Core::Start');
+    _logger2.default.debug('Express::Core::Start');
     //TODO  Change to System.import when its available
     require(_config.config.modules.core).default.init(app).then(function () {
-      _winston2.default.verbose('Express::Core::Success');
+      _logger2.default.verbose('Express::Core::Success');
       return resolve(app);
     }).catch(function (err) {
-      _winston2.default.error(err);
+      _logger2.default.error(err);
       return reject(err);
     });
   });
 }
 
 function listen(app) {
-  _winston2.default.debug('Express::Listen::Start');
+  _logger2.default.debug('Express::Listen::Start');
   let httpServerPromise = new Promise(function (resolve, reject) {
 
     httpServer.listen(_config.config.express.http.port, _config.config.express.host, () => {
@@ -198,22 +198,22 @@ function listen(app) {
   });
 
   return Promise.all([httpServerPromise, httpsServerPromise]).then(promises => {
-    _winston2.default.info('--');
-    _winston2.default.info(_config.config.app.title);
-    _winston2.default.info('Environment:     ' + process.env.NODE_ENV);
-    _winston2.default.info('Database:        ' + _config.config.mongoose.uri + _config.config.mongoose.db);
-    _winston2.default.info('HTTP Server:     http://' + httpServer.address().address + ':' + httpServer.address().port);
+    _logger2.default.info('--');
+    _logger2.default.info(_config.config.app.title);
+    _logger2.default.info('Environment:     ' + process.env.NODE_ENV);
+    _logger2.default.info('Database:        ' + _config.config.mongoose.uri + _config.config.mongoose.db);
+    _logger2.default.info('HTTP Server:     http://' + httpServer.address().address + ':' + httpServer.address().port);
     if (_config.config.express.https.enable === 'true') {
-      _winston2.default.info('HTTPS Server:    https://' + httpsServer.address().address + ':' + httpsServer.address().port);
+      _logger2.default.info('HTTPS Server:    https://' + httpsServer.address().address + ':' + httpsServer.address().port);
     }
-    _winston2.default.info('--');
+    _logger2.default.info('--');
     return app;
   });
 }
 
 function init() {
   return new Promise(function (resolve, reject) {
-    _winston2.default.debug('Express::Init::Start', _config.config.express.https);
+    _logger2.default.debug('Express::Init::Start', _config.config.express.https);
     if (expressApp !== undefined || httpsServer !== undefined || httpServer !== undefined) {
       return reject('Express::Init::Error::Server is still running.');
     }
@@ -226,7 +226,7 @@ function init() {
       };
       httpsServer = _https2.default.createServer(httpsOptions, expressApp);
     }
-    _winston2.default.verbose('Express::Init::Success');
+    _logger2.default.verbose('Express::Init::Success');
     return resolve(expressApp);
   });
 }
@@ -258,7 +258,7 @@ function destroy() {
   });
 
   return Promise.all([httpServerPromise, httpsServerPromise]).then(() => {
-    _winston2.default.info('Express::Destroy::Success');
+    _logger2.default.info('Express::Destroy::Success');
   });
 }
 
