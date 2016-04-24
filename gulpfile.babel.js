@@ -166,6 +166,13 @@ function testServerSingle(done) {
 testServerSingle.displayName = 'test:server';
 gulp.task(testServerSingle);
 
+function ssl() {
+  return gulp.src('server/ssl/*')
+    .pipe(gulp.dest('./dist/server/ssl'));
+}
+ssl.displayName = 'ssl';
+gulp.task(ssl);
+
 
 function sendCoveralls() {
   return gulp.src('tests/.coverage/**/lcov.info')
@@ -178,7 +185,7 @@ gulp.task(sendCoveralls);
 
 
 //Gulp Default
-var defaultTask = gulp.series(clean, gulp.parallel(images, templates, client, vendor, server, bootloader, angular));
+var defaultTask = gulp.series(clean, gulp.parallel(images, templates, client, vendor, server, bootloader, angular, ssl));
 defaultTask.displayName = 'default';
 gulp.task(defaultTask);
 
