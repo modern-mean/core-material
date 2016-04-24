@@ -182,6 +182,7 @@ function init() {
     expressApp = express();
     httpServer = http.createServer(expressApp);
     if (config.express.https.enable === 'true') {
+      console.log(__dirname, process.cwd());
       let httpsOptions = {
         key: fs.readFileSync(config.express.https.options.key),
         cert: fs.readFileSync(config.express.https.options.cert)

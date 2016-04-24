@@ -20,8 +20,8 @@ function load() {
         enable: process.env.MEAN_CORE_HTTPS || 'false', //Enabling SSL makes the entire site forced over SSL.
         port: process.env.MEAN_CORE_HTTPS_PORT || '8443',
         options: {
-          key: process.env.MEAN_CORE_HTTPS_KEY || 'server/ssl/key.pem',
-          cert: process.env.MEAN_CORE_HTTPS_CERT || 'server/ssl/cert.pem'
+          key: process.env.MEAN_CORE_HTTPS_KEY || __dirname + '/../ssl/key.pem',
+          cert: process.env.MEAN_CORE_HTTPS_CERT || __dirname + '/../ssl/cert.pem'
         }
       },
       livereload: process.env.MEAN_CORE_LIVERELOAD || 'false'

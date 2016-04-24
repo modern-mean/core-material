@@ -220,6 +220,7 @@ function init() {
     expressApp = (0, _express2.default)();
     httpServer = _http2.default.createServer(expressApp);
     if (_config.config.express.https.enable === 'true') {
+      console.log(__dirname, process.cwd());
       let httpsOptions = {
         key: _fs2.default.readFileSync(_config.config.express.https.options.key),
         cert: _fs2.default.readFileSync(_config.config.express.https.options.cert)
