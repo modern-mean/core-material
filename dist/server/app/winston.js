@@ -19,11 +19,11 @@ function init() {
   return new Promise((resolve, reject) => {
     let transports = [];
 
-    if (_config.config.logs.winston.file) {
+    if (_config.config.logs.winston.file === 'true') {
       transports.push(new _winston2.default.transports.File({ filename: _config.config.logs.winston.file }));
     }
 
-    if (_config.config.logs.winston.console) {
+    if (_config.config.logs.winston.console === 'true') {
       transports.push(new _winston2.default.transports.Console());
     }
 

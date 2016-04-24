@@ -1,16 +1,13 @@
 'use strict';
 
-import winston from 'winston';
 import app from './init';
-import logger from './winston';
+import logger from './logger';
 
-logger
-  .init()
-  .then(app.start)
+app.start()
   .then(function (app) {
-    winston.info('Modern-MEAN started Successfully');
+    logger.info('Modern-MEAN started Successfully');
   })
   .catch(function (err) {
-    winston.error(err);
+    logger.error(err);
     app.stop();
   });

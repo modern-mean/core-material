@@ -109,7 +109,7 @@ describe('/modules/core/server/app/init.js', () => {
       describe('https', () => {
 
         before(() => {
-          process.env.MEAN_CORE_HTTPS = true;
+          process.env.MEAN_CORE_HTTPS = 'true';
           config.load();
           return app.start();
         });

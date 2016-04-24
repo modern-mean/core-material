@@ -4,10 +4,8 @@ import sinonChai from 'sinon-chai';
 import sinonPromised from 'sinon-as-promised';
 import promised from 'chai-as-promised';
 import request from 'supertest';
-import winston from '../server/app/winston';
-import * as config from '../server/config/config'
-
-winston.init();
+import logger from '../server/app/logger';
+import * as config from '../server/config/config';
 
 chai.use(promised);
 chai.use(sinonChai);

@@ -1,6 +1,6 @@
 'use strict';
 
-import winston from 'winston';
+import logger from './logger';
 import mongooseModule from './mongoose';
 import express from './express';
 
@@ -37,11 +37,11 @@ function start() {
       .then(express.core)
       .then(express.listen)
       .then(function (app) {
-        winston.verbose('Express::Done::Success');
+        logger.verbose('Express::Done::Success');
         resolve(app);
       })
       .catch(function (err) {
-        winston.error(err);
+        logger.error(err);
         reject(err);
       });
   });
@@ -53,11 +53,11 @@ function stop() {
   return new Promise(function (resolve, reject) {
     Promise.all([express.destroy(), mongooseModule.disconnect()])
       .then(function () {
-        winston.verbose('MEAN::Stop::Success');
+        logger.verbose('MEAN::Stop::Success');
         resolve();
       })
       .catch(function (err) {
-        winston.error(err);
+        logger.error(err);
         reject(err);
       });
   });

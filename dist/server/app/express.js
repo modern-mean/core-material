@@ -95,7 +95,7 @@ function middleware(app) {
 
     app.use(_bodyParser2.default.json());
 
-    if (_config.config.express.https.enable) {
+    if (_config.config.express.https.enable === 'true') {
       app.set('forceSSLOptions', {
         httpsPort: _config.config.express.https.port
       });
@@ -184,7 +184,7 @@ function listen(app) {
   });
 
   let httpsServerPromise = new Promise(function (resolve, reject) {
-    if (!_config.config.express.https.enable) {
+    if (_config.config.express.https.enable !== 'true') {
       return resolve();
     }
 
@@ -203,7 +203,7 @@ function listen(app) {
     _winston2.default.info('Environment:     ' + process.env.NODE_ENV);
     _winston2.default.info('Database:        ' + _config.config.mongoose.uri + _config.config.mongoose.db);
     _winston2.default.info('HTTP Server:     http://' + httpServer.address().address + ':' + httpServer.address().port);
-    if (_config.config.express.https.enable) {
+    if (_config.config.express.https.enable === 'true') {
       _winston2.default.info('HTTPS Server:    https://' + httpsServer.address().address + ':' + httpsServer.address().port);
     }
     _winston2.default.info('--');
@@ -219,7 +219,7 @@ function init() {
     }
     expressApp = (0, _express2.default)();
     httpServer = _http2.default.createServer(expressApp);
-    if (_config.config.express.https.enable) {
+    if (_config.config.express.https.enable === 'true') {
       let httpsOptions = {
         key: _fs2.default.readFileSync(_config.config.express.https.options.key),
         cert: _fs2.default.readFileSync(_config.config.express.https.options.cert)

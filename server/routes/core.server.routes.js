@@ -1,12 +1,12 @@
 'use strict';
 
 import express from 'express';
-import winston from 'winston';
+import logger from '../app/logger';
 import core from '../controllers/core.server.controller';
 
 function init(app) {
   return new Promise(function (resolve, reject) {
-    winston.debug('Core::Routes::Start');
+    logger.debug('Core::Routes::Start');
 
     app.use('/', express.static('./public'));
 
@@ -22,7 +22,7 @@ function init(app) {
     app.route('/*')
       .get(core.renderIndex);
 
-    winston.verbose('Core::Routes::Success');
+    logger.verbose('Core::Routes::Success');
 
     return resolve(app);
 

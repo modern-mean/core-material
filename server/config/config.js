@@ -14,17 +14,17 @@ function load() {
     express: {
       host: process.env.MEAN_CORE_HOST || '0.0.0.0',
       http: {
-        port: process.env.MEAN_CORE_HTTP_PORT || 8080,
+        port: process.env.MEAN_CORE_HTTP_PORT || '8080',
       },
       https: {
-        enable: process.env.MEAN_CORE_HTTPS || false, //Enabling SSL makes the entire site forced over SSL.
-        port: process.env.MEAN_CORE_HTTPS_PORT || 8443,
+        enable: process.env.MEAN_CORE_HTTPS || 'false', //Enabling SSL makes the entire site forced over SSL.
+        port: process.env.MEAN_CORE_HTTPS_PORT || '8443',
         options: {
           key: process.env.MEAN_CORE_HTTPS_KEY || 'server/ssl/key.pem',
           cert: process.env.MEAN_CORE_HTTPS_CERT || 'server/ssl/cert.pem'
         }
       },
-      livereload: process.env.MEAN_CORE_LIVERELOAD || false
+      livereload: process.env.MEAN_CORE_LIVERELOAD || 'false'
     },
     logs: {
       //https://github.com/expressjs/morgan
@@ -35,7 +35,7 @@ function load() {
       winston: {
         level:  process.env.MEAN_CORE_WINSTON_LEVEL || 'info', //{ error: 0, warn: 1, info: 2, verbose: 3, debug: 4, silly: 5 }
         file: process.env.MEAN_CORE_WINSTON_FILE || './logs/core.log',
-        console: process.env.MEAN_CORE_WINSTON_CONSOLE || true
+        console: process.env.MEAN_CORE_WINSTON_CONSOLE || 'true'
       }
     },
     modules: {
@@ -46,12 +46,12 @@ function load() {
       uri: process.env.MONGOOSE_URI || 'mongodb://localhost/',
       db: process.env.MONGOOSE_DB || 'modern-mean-dev',
       options: {
-        user: process.env.MONGOOSE_USER || undefined,
-        pass: process.env.MONGOOSE_DB || undefined
+        user: process.env.MONGOOSE_USER || '',
+        pass: process.env.MONGOOSE_DB || ''
       },
       // Enable mongoose debug mode
-      debug: process.env.MONGOOSE_DEBUG || false,
-      seed: process.env.MONGOOSE_SEED || false
+      debug: process.env.MONGOOSE_DEBUG || 'false',
+      seed: process.env.MONGOOSE_SEED || 'false'
     }
   };
 }

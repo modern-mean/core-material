@@ -3,7 +3,7 @@
 import mongoose from 'mongoose';
 import globby from 'globby';
 import path from 'path';
-import winston from 'winston';
+import logger from './logger';
 import { config } from '../config/config';
 
 mongoose.Promise = global.Promise;
@@ -15,7 +15,7 @@ function connect() {
   return new Promise((resolve, reject) => {
 
     if (mongoose.connection.readyState !== 0) {
-      winston.info('Mongoose::Connect::Already Connected');
+      logger.info('Mongoose::Connect::Already Connected');
       return resolve(mongoose);
     }
 
@@ -26,7 +26,7 @@ function connect() {
     });
 
     mongoose.connection.once('connected', function () {
-      winston.info('Mongoose::Connect::Success');
+      logger.info('Mongoose::Connect::Success');
       return resolve(mongoose);
     });
 
@@ -35,9 +35,9 @@ function connect() {
 
 function disconnect() {
   return new Promise(function (resolve, reject) {
-    winston.debug('Mongoose::Disconnect::Start');
+    logger.debug('Mongoose::Disconnect::Start');
     if (mongoose.connection.readyState === 0) {
-      winston.info('Mongoose::Disconnect::Not Connected');
+      logger.info('Mongoose::Disconnect::Not Connected');
       return resolve();
     }
 
@@ -48,7 +48,7 @@ function disconnect() {
     });
 
     mongoose.connection.once('disconnected', function () {
-      winston.info('Mongoose::Disconnect::Success');
+      logger.info('Mongoose::Disconnect::Success');
       db = undefined;
       return resolve();
     });

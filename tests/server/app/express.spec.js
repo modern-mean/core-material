@@ -82,7 +82,7 @@ describe('/modules/core/server/app/express.js', () => {
         let promise;
 
         before(() => {
-          process.env.MEAN_CORE_HTTPS = true;
+          process.env.MEAN_CORE_HTTPS = 'true';
           config.load();
           promise = expressModule.init();
           return promise;
@@ -203,7 +203,7 @@ describe('/modules/core/server/app/express.js', () => {
     describe('https', () => {
 
       before(() => {
-        process.env.MEAN_CORE_HTTPS = true;
+        process.env.MEAN_CORE_HTTPS = 'true';
         config.load();
       });
 
@@ -277,7 +277,7 @@ describe('/modules/core/server/app/express.js', () => {
     describe('success', () => {
 
       beforeEach(() => {
-        process.env.MEAN_CORE_MODULES_CUSTOM = ['tests/server/resolveModule.js'];
+        process.env.MEAN_CORE_MODULES_CUSTOM = 'tests/server/resolveModule.js';
         config.load();
       });
 
@@ -296,7 +296,7 @@ describe('/modules/core/server/app/express.js', () => {
     describe('error', () => {
 
       beforeEach(() => {
-        process.env.MEAN_CORE_MODULES_CUSTOM = ['tests/server/rejectModule.js'];
+        process.env.MEAN_CORE_MODULES_CUSTOM = 'tests/server/rejectModule.js';
         config.load();
       });
 
@@ -384,7 +384,7 @@ describe('/modules/core/server/app/express.js', () => {
       describe('https', () => {
 
         before(() => {
-          process.env.MEAN_CORE_HTTPS = true;
+          process.env.MEAN_CORE_HTTPS = 'true';
           config.load();
           promise = expressModule.init()
             .then(expressModule.listen);
@@ -473,7 +473,7 @@ describe('/modules/core/server/app/express.js', () => {
       describe('https', () => {
 
         before(() => {
-          process.env.MEAN_CORE_HTTPS = true;
+          process.env.MEAN_CORE_HTTPS = 'true';
           config.load();
         });
 
