@@ -238,12 +238,12 @@ function getExpressApp() {
   return expressApp;
 }
 
-let service = { core: core, engine: engine, express: expressApp, headers: headers, init: init, listen: listen, middleware: middleware, modules: modules, variables: variables, destroy: destroy, httpServer: getHttpServer, httpsServer: getHttpsServer, expressApp: getExpressApp };
+let service = { core: core, engine: engine, express: express, headers: headers, init: init, listen: listen, middleware: middleware, modules: modules, variables: variables, destroy: destroy, httpServer: getHttpServer, httpsServer: getHttpsServer, getExpressApp: getExpressApp };
 export default service;
-
 export {
   core,
   engine,
+  express,
   headers,
   init,
   listen,
@@ -252,7 +252,6 @@ export {
   variables,
   getHttpServer as httpServer,
   getHttpsServer as httpsServer,
-  getExpressApp as expressApp,
-  expressApp as express,
+  getExpressApp,
   destroy
 };

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.destroy = exports.express = exports.expressApp = exports.httpsServer = exports.httpServer = exports.variables = exports.modules = exports.middleware = exports.listen = exports.init = exports.headers = exports.engine = exports.core = undefined;
+exports.destroy = exports.getExpressApp = exports.httpsServer = exports.httpServer = exports.variables = exports.modules = exports.middleware = exports.listen = exports.init = exports.headers = exports.express = exports.engine = exports.core = undefined;
 
 var _http = require('http');
 
@@ -217,7 +217,7 @@ function init() {
     if (expressApp !== undefined || httpsServer !== undefined || httpServer !== undefined) {
       return reject('Express::Init::Error::Server is still running.');
     }
-    exports.express = expressApp = (0, _express2.default)();
+    expressApp = (0, _express2.default)();
     httpServer = _http2.default.createServer(expressApp);
     if (_config.config.express.https.enable === 'true') {
       console.log(__dirname, process.cwd());
@@ -233,7 +233,7 @@ function init() {
 }
 
 function destroy() {
-  exports.express = expressApp = undefined;
+  expressApp = undefined;
   let httpServerPromise = new Promise(function (resolve, reject) {
     if (!httpServer || !httpServer.listening) {
       httpServer = undefined;
@@ -275,10 +275,11 @@ function getExpressApp() {
   return expressApp;
 }
 
-let service = { core: core, engine: engine, express: expressApp, headers: headers, init: init, listen: listen, middleware: middleware, modules: modules, variables: variables, destroy: destroy, httpServer: getHttpServer, httpsServer: getHttpsServer, expressApp: getExpressApp };
+let service = { core: core, engine: engine, express: _express2.default, headers: headers, init: init, listen: listen, middleware: middleware, modules: modules, variables: variables, destroy: destroy, httpServer: getHttpServer, httpsServer: getHttpsServer, getExpressApp: getExpressApp };
 exports.default = service;
 exports.core = core;
 exports.engine = engine;
+exports.express = _express2.default;
 exports.headers = headers;
 exports.init = init;
 exports.listen = listen;
@@ -287,6 +288,5 @@ exports.modules = modules;
 exports.variables = variables;
 exports.httpServer = getHttpServer;
 exports.httpsServer = getHttpsServer;
-exports.expressApp = getExpressApp;
-exports.express = expressApp;
+exports.getExpressApp = getExpressApp;
 exports.destroy = destroy;

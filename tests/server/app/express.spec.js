@@ -21,6 +21,10 @@ describe('/modules/core/server/app/express.js', () => {
     return expressModule.should.be.an('object');
   });
 
+  it('should export express', () => {
+    return expressModule.express.should.be.a('function');
+  });
+
   it('should have property init', () => {
     return expressModule.init.should.be.a('function');
   });
@@ -73,7 +77,7 @@ describe('/modules/core/server/app/express.js', () => {
         });
 
         it('should create expressApp', () => {
-          return expressModule.expressApp().should.be.a('function');
+          return expressModule.getExpressApp().should.be.a('function');
         });
 
       });
@@ -114,7 +118,7 @@ describe('/modules/core/server/app/express.js', () => {
         });
 
         it('should create expressApp', () => {
-          return expressModule.expressApp().should.be.a('function');
+          return expressModule.getExpressApp().should.be.a('function');
         });
 
       });
@@ -465,7 +469,7 @@ describe('/modules/core/server/app/express.js', () => {
         });
 
         it('should destroy expressApp', () => {
-          return expect(expressModule.expressApp()).to.not.exist;
+          return expect(expressModule.getExpressApp()).to.not.exist;
         });
 
       });
@@ -505,7 +509,7 @@ describe('/modules/core/server/app/express.js', () => {
         });
 
         it('should destroy expressApp', () => {
-          return expect(expressModule.expressApp()).to.not.exist;
+          return expect(expressModule.getExpressApp()).to.not.exist;
         });
 
       });
@@ -521,7 +525,7 @@ describe('/modules/core/server/app/express.js', () => {
     });
 
     it('should have property expressApp', () => {
-      return expressModule.expressApp.should.be.a('function');
+      return expressModule.getExpressApp.should.be.a('function');
     });
 
   });

@@ -99,7 +99,7 @@ describe('/modules/core/server/app/init.js', () => {
 
         it('should start the http server and be listening', done => {
 
-          request(expressModule.expressApp())
+          request(expressModule.getExpressApp())
             .get('/')
             .expect(200, done);
         });
@@ -121,7 +121,7 @@ describe('/modules/core/server/app/init.js', () => {
         });
 
         it('should start the http server and force redirect', done => {
-          request(expressModule.expressApp())
+          request(expressModule.getExpressApp())
             .get('/')
             .expect(301, done);
         });
