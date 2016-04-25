@@ -14,9 +14,9 @@ global.expect = chai.expect;
 global.should = chai.should();
 global.sinon = sinon;
 global.request = request;
-global.config = config;
 
 process.env.MEAN_CORE_HTTPS_PORT = 8444;
 process.env.MEAN_CORE_HTTP_PORT = 8081;
 
 config.load();
+global.config = config;

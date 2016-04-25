@@ -3,7 +3,7 @@
 let config;
 
 function load() {
-  config = {
+  return config = {
     app: {
       title: process.env.MEAN_CORE_TITLE || 'MODERN-MEAN',
       description: process.env.MEAN_CORE_DESCRIPTION || 'Full-Stacka JavaScript with MongoDB, Express, AngularJS, and Node.js',
