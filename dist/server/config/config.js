@@ -46,15 +46,14 @@ function load() {
       custom: process.env.MEAN_CORE_MODULES_CUSTOM || ['./modules/*/dist/server/!(*core).module.js']
     },
     mongoose: {
-      uri: process.env.MONGOOSE_URI || 'mongodb://localhost/',
-      db: process.env.MONGOOSE_DB || 'modern-mean-dev',
+      uri: process.env.MEAN_CORE_MONGOOSE_URI || 'mongodb://localhost/',
+      db: process.env.MEAN_CORE_MONGOOSE_DB || 'modern-mean-dev',
       options: {
-        user: process.env.MONGOOSE_USER || '',
-        pass: process.env.MONGOOSE_DB || ''
+        user: process.env.MEAN_CORE_MONGOOSE_USER || '',
+        pass: process.env.MEAN_CORE_MONGOOSE_DB || ''
       },
       // Enable mongoose debug mode
-      debug: process.env.MONGOOSE_DEBUG || 'false',
-      seed: process.env.MONGOOSE_SEED || 'false'
+      debug: process.env.MEAN_CORE_MONGOOSE_DEBUG || 'false'
     }
   };
 }
