@@ -89,7 +89,7 @@ function headers(app) {
 
 function modules(app) {
   return new Promise(function (resolve, reject) {
-    logger.debug('Express::Modules::Start');
+    logger.debug('Express::Modules::Start', config.modules.custom);
     let promises = [];
     globby(config.modules.custom)
       .then(files => {
@@ -101,7 +101,7 @@ function modules(app) {
 
         Promise.all(promises)
           .then(function () {
-            logger.verbose('Express::Modules::Success');
+            logger.verbose('Express::Modules::Success', config.modules.custom);
             resolve(app);
           })
           .catch(function (err) {

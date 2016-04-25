@@ -136,7 +136,7 @@ function headers(app) {
 
 function modules(app) {
   return new Promise(function (resolve, reject) {
-    _logger2.default.debug('Express::Modules::Start');
+    _logger2.default.debug('Express::Modules::Start', _config.config.modules.custom);
     let promises = [];
     (0, _globby2.default)(_config.config.modules.custom).then(files => {
       files.forEach(file => {
@@ -146,7 +146,7 @@ function modules(app) {
       });
 
       Promise.all(promises).then(function () {
-        _logger2.default.verbose('Express::Modules::Success');
+        _logger2.default.verbose('Express::Modules::Success', _config.config.modules.custom);
         resolve(app);
       }).catch(function (err) {
         _logger2.default.error(err);
