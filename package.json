@@ -2,7 +2,7 @@
   "name": "modern-mean-core-material",
   "version": "0.0.1",
   "description": "ModernMEAN Material Design Core Module",
-  "main": "index.js",
+  "main": "dist/",
   "directories": {
     "test": "tests"
   },
