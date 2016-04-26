@@ -19,11 +19,31 @@ import mocha from 'gulp-mocha';
 
 var isparta = require('isparta');
 
-function clean() {
+function cleanClient() {
   return del([
-    './dist'
+    './dist/client'
   ]);
 }
+cleanClient.displayName = 'clean:client';
+gulp.task(cleanClient);
+
+function cleanServer() {
+  return del([
+    './dist/server'
+  ]);
+}
+cleanServer.displayName = 'clean:server';
+gulp.task(cleanServer);
+
+function cleanCoverage() {
+  return del([
+    './tests/.coverage'
+  ]);
+}
+cleanCoverage.displayName = 'clean:coverage';
+gulp.task(cleanCoverage);
+
+let clean = gulp.parallel(cleanClient, cleanServer, cleanCoverage);
 clean.displayName = 'clean';
 gulp.task(clean);
 
@@ -34,8 +54,9 @@ function lint() {
     .pipe(eslint.failAfterError());
 }
 lint.displayName = 'lint';
+gulp.task(lint);
 
-function server() {
+function serverBabel() {
   let filterJS = filter(['**/*.js'], { restore: true });
   return gulp.src(['./server/**/*.{js,html}'])
     .pipe(filterJS)
@@ -43,8 +64,8 @@ function server() {
     .pipe(filterJS.restore)
     .pipe(gulp.dest('./dist/server'));
 }
-server.displayName = 'server';
-gulp.task(server);
+serverBabel.displayName = 'babel';
+gulp.task(serverBabel);
 
 function vendor() {
   let bowerFiles = mainBowerFiles();
@@ -92,7 +113,7 @@ function angular() {
 angular.displayName = 'angular';
 gulp.task(angular);
 
-function client() {
+function application() {
   let filterJS = filter(['**/*.js'], { restore: true }),
     filterCSS = filter(['**/*.css'], { restore: true });
 
@@ -105,8 +126,8 @@ function client() {
     .pipe(concat('application.css'))
     .pipe(gulp.dest('./dist/client'));
 }
-client.displayName = 'client';
-gulp.task(client);
+application.displayName = 'application';
+gulp.task(application);
 
 function images() {
   return gulp.src(['./client/**/*.{jpg,png,gif,ico}'])
@@ -184,17 +205,22 @@ sendCoveralls.displayName = 'coveralls';
 gulp.task(sendCoveralls);
 
 
+//Build Client
+let client = gulp.series(cleanClient, gulp.parallel(images, templates, application, vendor, bootloader, angular));
+client.displayName = 'client';
+gulp.task(client);
+
+//Build Server
+let server = gulp.series(cleanServer, gulp.parallel(serverBabel, ssl));
+server.displayName = 'server';
+gulp.task(server);
+
 //Gulp Default
-var defaultTask = gulp.series(clean, gulp.parallel(images, templates, client, vendor, server, bootloader, angular, ssl));
+let defaultTask = gulp.series(clean, gulp.parallel(server, client));
 defaultTask.displayName = 'default';
 gulp.task(defaultTask);
 
-//Lint test
-var lint = gulp.series(lint);
-lint.displayName = 'lint';
-gulp.task(lint);
-
 //Gulp Test
-var testTask = gulp.series(clean, defaultTask, lint, testClientSingle, testServerSingle);
+let testTask = gulp.series(clean, defaultTask, lint, testClientSingle, testServerSingle);
 testTask.displayName = 'test';
 gulp.task(testTask);
