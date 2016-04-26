@@ -85,7 +85,7 @@ function middleware(app) {
     _logger2.default.debug('Express::Middleware::Start');
     app.use((0, _morgan2.default)(_config.config.logs.morgan.format, _config.config.logs.morgan.options));
 
-    if (process.env.MEAN_CORE_LIVERELOAD) {
+    if (_config.config.express.livereload === 'true') {
       app.use((0, _connectLivereload2.default)());
     }
 
@@ -145,11 +145,11 @@ function modules(app) {
         promises.push(promise);
       });
 
-      Promise.all(promises).then(function () {
+      Promise.all(promises).then(() => {
         _logger2.default.verbose('Express::Modules::Success', _config.config.modules.custom);
         resolve(app);
-      }).catch(function (err) {
-        _logger2.default.error(err);
+      }).catch(err => {
+        _logger2.default.error('Express::Modules::Error', err);
         reject(err);
       });
     });

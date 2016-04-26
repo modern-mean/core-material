@@ -17,7 +17,7 @@ If you are developing for the core module it is easier to put this repository in
 git clone https://github.com/modern-mean/modern-mean.git
 git clone https://github.com/modern-mean/core-material.git modern-mean/modules/modern-mean-core-material
 ```
-Or symlink
+Or symlink(Watching will not work until this issue is fixed https://github.com/paulmillr/chokidar/issues/419)
 ```sh
 git clone https://github.com/modern-mean/modern-mean.git
 git clone https://github.com/modern-mean/core-material.git modern-mean-core-material
