@@ -20,8 +20,8 @@ git clone https://github.com/modern-mean/core-material.git modern-mean/modules/m
 Or symlink
 ```sh
 git clone https://github.com/modern-mean/modern-mean.git
-git clone https://github.com/modern-mean/core-material.git
+git clone https://github.com/modern-mean/core-material.git modern-mean-core-material
 cd modern-mean/modules
-ln -s ../../core-material modern-mean-core-material
+ln -s ../../modern-mean-core-material .
 ```
 Then npm and bower install the packages.
