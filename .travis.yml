@@ -27,7 +27,8 @@ before_install:
   - gem install sass --version "=3.4.21"
   - npm i nsp -g
   - npm install gulpjs/gulp-cli#4.0 -g
-after_success:
+install:
+  - npm install
   - bower install --config.interactive=false
 #  - npm install protractor
 #  - "export DISPLAY=:99.0"
