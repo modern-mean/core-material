@@ -141,8 +141,12 @@ function modules(app) {
     (0, _globby2.default)(_config.config.modules.custom).then(files => {
       files.forEach(file => {
         _logger2.default.debug('Express::Module::Match::' + file);
-        let promise = require(_path2.default.resolve(file)).default.init(app);
-        promises.push(promise);
+        try {
+          let promise = require(_path2.default.resolve(file)).default.init(app);
+          promises.push(promise);
+        } catch (err) {
+          _logger2.default.error('Express::Modules::Error', err);
+        }
       });
 
       Promise.all(promises).then(() => {

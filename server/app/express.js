@@ -95,8 +95,13 @@ function modules(app) {
       .then(files => {
         files.forEach(file => {
           logger.debug('Express::Module::Match::' + file);
-          let promise = require(path.resolve(file)).default.init(app);
-          promises.push(promise);
+          try {
+            let promise = require(path.resolve(file)).default.init(app);
+            promises.push(promise);
+          } catch(err) {
+            logger.error('Express::Modules::Error', err);
+          }
+
         });
 
         Promise.all(promises)
