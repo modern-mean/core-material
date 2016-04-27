@@ -100,6 +100,7 @@ function modules(app) {
             promises.push(promise);
           } catch(err) {
             logger.error('Express::Modules::Error', err);
+            reject(err);
           }
 
         });
@@ -122,15 +123,21 @@ function core(app) {
   return new Promise(function (resolve, reject) {
     logger.debug('Express::Core::Start');
     //TODO  Change to System.import when its available
-    require(config.modules.core).default.init(app)
-      .then(function () {
-        logger.verbose('Express::Core::Success');
-        return resolve(app);
-      })
-      .catch(function (err) {
-        logger.error(err);
-        return reject(err);
-      });
+    try {
+      require(config.modules.core).default.init(app)
+        .then(function () {
+          logger.verbose('Express::Core::Success');
+          return resolve(app);
+        })
+        .catch(function (err) {
+          logger.error(err);
+          return reject(err);
+        });
+    } catch(err) {
+      logger.error('Express::Modules::Error', err);
+      reject(err);
+    }
+
   });
 }
 

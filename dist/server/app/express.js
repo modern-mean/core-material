@@ -146,6 +146,7 @@ function modules(app) {
           promises.push(promise);
         } catch (err) {
           _logger2.default.error('Express::Modules::Error', err);
+          reject(err);
         }
       });
 
@@ -164,13 +165,18 @@ function core(app) {
   return new Promise(function (resolve, reject) {
     _logger2.default.debug('Express::Core::Start');
     //TODO  Change to System.import when its available
-    require(_config.config.modules.core).default.init(app).then(function () {
-      _logger2.default.verbose('Express::Core::Success');
-      return resolve(app);
-    }).catch(function (err) {
-      _logger2.default.error(err);
-      return reject(err);
-    });
+    try {
+      require(_config.config.modules.core).default.init(app).then(function () {
+        _logger2.default.verbose('Express::Core::Success');
+        return resolve(app);
+      }).catch(function (err) {
+        _logger2.default.error(err);
+        return reject(err);
+      });
+    } catch (err) {
+      _logger2.default.error('Express::Modules::Error', err);
+      reject(err);
+    }
   });
 }
 
