@@ -32,13 +32,13 @@ function load() {
     logs: {
       //https://github.com/expressjs/morgan
       morgan: {
-        format: process.env.MEAN_CORE_MORGAN_FORMAT || 'short'
+        format: process.env.MEAN_CORE_MORGAN_FORMAT || process.env.MEAN_MORGAN_FORMAT || 'short'
       },
       //https://github.com/winstonjs/winston
       winston: {
-        level: process.env.MEAN_CORE_WINSTON_LEVEL || 'info', //{ error: 0, warn: 1, info: 2, verbose: 3, debug: 4, silly: 5 }
-        file: process.env.MEAN_CORE_WINSTON_FILE || './logs/core.log',
-        console: process.env.MEAN_CORE_WINSTON_CONSOLE || 'true'
+        level: process.env.MEAN_CORE_WINSTON_LEVEL || process.env.MEAN_WINSTON_LEVEL || 'info', //{ error: 0, warn: 1, info: 2, verbose: 3, debug: 4, silly: 5 }
+        file: process.env.MEAN_CORE_WINSTON_FILE || process.env.MEAN_WINSTON_FILE || './logs/core.log',
+        console: process.env.MEAN_CORE_WINSTON_CONSOLE || process.env.MEAN_WINSTON_CONSOLE || 'true'
       }
     },
     modules: {
