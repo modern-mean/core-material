@@ -17,7 +17,7 @@
       },
       analytics: {
         name: 'tracker',
-        tracker: 'UA-XXXXXXXX-XX',
+        tracker: 'UA-77127830-1',
         trackEvent: true
       },
       logs: {
