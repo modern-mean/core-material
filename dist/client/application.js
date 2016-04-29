@@ -207,13 +207,16 @@
   function theme($mdThemingProvider) {
     $mdThemingProvider.theme('default')
       .primaryPalette('grey', {
-        'default': '900',
-        'hue-1': '600',
+        'default': '500',
+        'hue-1': '300',
         'hue-2': '700',
-        'hue-3': '800'
+        'hue-3': '900'
       })
       .accentPalette('teal', {
-        'default': '500'
+        'default': '500',
+        'hue-1': '300',
+        'hue-2': '700',
+        'hue-3': '900',
       })
       .warnPalette('red')
       .backgroundPalette('grey', {
