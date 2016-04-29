@@ -43,7 +43,7 @@ function load() {
     },
     modules: {
       core: process.env.MEAN_CORE_MODULES_CORE || '../core.module.js',
-      custom: process.env.MEAN_CORE_MODULES_CUSTOM || ['./modules/*/dist/server/!(*core).module.js']
+      custom: process.env.MEAN_CORE_MODULES_CUSTOM || ['./modules/*/dist/server/!(*core).module.js', './node_modules/modern-mean-*/dist/server/!(*core).module.js']
     },
     mongoose: {
       uri: process.env.MEAN_CORE_MONGOOSE_URI || 'mongodb://localhost/',
