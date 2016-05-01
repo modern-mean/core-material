@@ -2,50 +2,15 @@
   'use strict';
 
   app.registerModule('core', [app.name]);
-  app.registerModule('core.routes', ['ui.router']);
+  app.registerModule('core.config', [app.name]);
+  app.registerModule('core.routes', [app.name, 'ui.router']);
 
 })(window.modernMeanApplication);
 
-(function() {
-  'use strict';
-
-  angular
-    .module('core')
-    .constant('CORE_CONSTANTS', {
-      page: {
-        title: 'Modern MEAN'
-      },
-      analytics: {
-        name: 'tracker',
-        tracker: 'UA-77127830-1',
-        trackEvent: true
-      },
-      logs: {
-        //https://docs.angularjs.org/api/ng/service/$log
-        levels: {
-          debug: true,
-          info: true,
-          warn: true,
-          error: true
-        }
-      },
-      navigation: {
-        left: {
-          heading: 'Left Navigation',
-          backdrop: true,
-          locked: {
-            always: false,
-            media: 'gt-sm'
-          }
-        },
-        right: {
-          locked: {
-            always: false
-          }
-        }
-      }
-
-    });
+(function () { 
+ return angular.module("core.config")
+.constant("ANALYTICS", {"name":"tracker","tracker":"UA-77127830-1","trackEvent":true})
+.constant("LOGGING", {"levels":{"debug":"true","info":"true","warn":"true","error":"true"}});
 
 })();
 
@@ -53,14 +18,14 @@
   'use strict';
 
   angular
-    .module('core')
+    .module('core.config')
     .config(tracking)
     .run(function(Analytics) {});
 
-  tracking.$inject = ['AnalyticsProvider', 'CORE_CONSTANTS'];
+  tracking.$inject = ['AnalyticsProvider', 'ANALYTICS'];
 
-  function tracking(AnalyticsProvider, CORE_CONSTANTS) {
-    AnalyticsProvider.setAccount(CORE_CONSTANTS.analytics);
+  function tracking(AnalyticsProvider, ANALYTICS) {
+    AnalyticsProvider.setAccount(ANALYTICS);
     AnalyticsProvider.trackPages(true);
     AnalyticsProvider.trackUrlParams(true);
     AnalyticsProvider.setPageEvent('$stateChangeSuccess');
@@ -71,26 +36,26 @@
   'use strict';
 
   angular
-    .module('core')
+    .module('core.config')
     .config(logging);
 
-  logging.$inject = ['$provide', 'CORE_CONSTANTS'];
-  function logging($provide, CORE_CONSTANTS) {
+  logging.$inject = ['$provide', 'LOGGING'];
+  function logging($provide, LOGGING) {
     $provide.decorator('$log', function ($delegate) {
       /* istanbul ignore if  */
-      if(!CORE_CONSTANTS.logs.levels.debug) {
+      if(LOGGING.levels.debug !== 'true') {
         $delegate.debug = function () { return true; };
       }
       /* istanbul ignore if  */
-      if(!CORE_CONSTANTS.logs.levels.info) {
+      if(LOGGING.levels.info !== 'true') {
         $delegate.info = function () { return true; };
       }
       /* istanbul ignore if  */
-      if(!CORE_CONSTANTS.logs.levels.warn) {
+      if(LOGGING.levels.warn !== 'true') {
         $delegate.warn = function () { return true; };
       }
       /* istanbul ignore if  */
-      if(!CORE_CONSTANTS.logs.levels.error) {
+      if(LOGGING.levels.error !== 'true') {
         $delegate.error = function () { return true; };
       }
 
@@ -250,6 +215,13 @@
   }
 })();
 
+(function () { 
+ return angular.module("core.config")
+.value("PAGE", {"title":"MODERN-MEAN"})
+.value("NAVIGATION", {"left":{"heading":"Left Navigation","backdrop":true,"locked":{"always":false,"media":"gt-sm"}},"right":{"locked":{"always":false}}});
+
+})();
+
 (function() {
   'use strict';
 
@@ -317,12 +289,12 @@
     .module('core')
     .controller('SideNavLeftController', SideNavLeftController);
 
-  SideNavLeftController.$inject = ['$mdComponentRegistry', '$mdMedia', 'CORE_CONSTANTS', '$log'];
+  SideNavLeftController.$inject = ['$mdComponentRegistry', '$mdMedia', 'NAVIGATION', '$log'];
 
-  function SideNavLeftController($mdComponentRegistry, $mdMedia, CORE_CONSTANTS, $log) {
+  function SideNavLeftController($mdComponentRegistry, $mdMedia, NAVIGATION, $log) {
     var vm = this;
 
-    vm.config = CORE_CONSTANTS.navigation.left;
+    vm.config = NAVIGATION.left;
     vm.isLockedOpen = isLockedOpen;
 
     $mdComponentRegistry
@@ -332,7 +304,7 @@
       });
 
     function isLockedOpen() {
-      vm.config.backdrop = CORE_CONSTANTS.navigation.left.backdrop;
+      vm.config.backdrop = NAVIGATION.left.backdrop;
       if (vm.config.locked.always) {
         vm.config.backdrop = true;
         return true;
@@ -379,9 +351,9 @@
     .module('core.routes')
     .directive('pageTitle', pageTitle);
 
-  pageTitle.$inject = ['$rootScope', '$state', 'CORE_CONSTANTS', '$log'];
+  pageTitle.$inject = ['$rootScope', '$state', 'PAGE', '$log'];
 
-  function pageTitle($rootScope, $state, CORE_CONSTANTS, $log) {
+  function pageTitle($rootScope, $state, PAGE, $log) {
     var directive = {
       retrict: 'A',
       link: link
@@ -393,9 +365,9 @@
       function listener(event, toState) {
         $log.info('Core::Directive::PageTitle', toState.data.pageTitle);
         if (toState.data && toState.data.pageTitle) {
-          element.html(CORE_CONSTANTS.page.title + ' - ' + toState.data.pageTitle);
+          element.html(PAGE.title + ' - ' + toState.data.pageTitle);
         } else {
-          element.html(CORE_CONSTANTS.page.title);
+          element.html(PAGE.title);
         }
       }
     }

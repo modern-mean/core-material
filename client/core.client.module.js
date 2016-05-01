@@ -2,6 +2,7 @@
   'use strict';
 
   app.registerModule('core', [app.name]);
-  app.registerModule('core.routes', ['ui.router']);
+  app.registerModule('core.config', [app.name]);
+  app.registerModule('core.routes', [app.name, 'ui.router']);
 
 })(window.modernMeanApplication);

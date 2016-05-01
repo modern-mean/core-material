@@ -100,7 +100,7 @@ function modules(app) {
             promises.push(promise);
           } catch(err) {
             logger.error('Express::Modules::Error', err);
-            reject(err);
+            return reject(err);
           }
 
         });
@@ -108,11 +108,11 @@ function modules(app) {
         Promise.all(promises)
           .then(() => {
             logger.verbose('Express::Modules::Success', config.modules.custom);
-            resolve(app);
+            return resolve(app);
           })
           .catch(err => {
             logger.error('Express::Modules::Error', err);
-            reject(err);
+            return reject(err);
           });
       });
 

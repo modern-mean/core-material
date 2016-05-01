@@ -5,12 +5,12 @@
     .module('core')
     .controller('SideNavLeftController', SideNavLeftController);
 
-  SideNavLeftController.$inject = ['$mdComponentRegistry', '$mdMedia', 'CORE_CONSTANTS', '$log'];
+  SideNavLeftController.$inject = ['$mdComponentRegistry', '$mdMedia', 'NAVIGATION', '$log'];
 
-  function SideNavLeftController($mdComponentRegistry, $mdMedia, CORE_CONSTANTS, $log) {
+  function SideNavLeftController($mdComponentRegistry, $mdMedia, NAVIGATION, $log) {
     var vm = this;
 
-    vm.config = CORE_CONSTANTS.navigation.left;
+    vm.config = NAVIGATION.left;
     vm.isLockedOpen = isLockedOpen;
 
     $mdComponentRegistry
@@ -20,7 +20,7 @@
       });
 
     function isLockedOpen() {
-      vm.config.backdrop = CORE_CONSTANTS.navigation.left.backdrop;
+      vm.config.backdrop = NAVIGATION.left.backdrop;
       if (vm.config.locked.always) {
         vm.config.backdrop = true;
         return true;

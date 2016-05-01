@@ -8,6 +8,8 @@ import eslint from 'gulp-eslint';
 import filter from 'gulp-filter';
 import rename from 'gulp-rename';
 import coveralls from 'gulp-coveralls';
+import jeditor from 'gulp-json-editor';
+import ngConfig from 'gulp-ng-config';
 import del from 'del';
 import mainBowerFiles from 'main-bower-files';
 import templateCache from 'gulp-angular-templatecache';
@@ -16,6 +18,7 @@ import pngquant from 'imagemin-pngquant';
 import { Server as KarmaServer } from 'karma';
 import istanbul from 'gulp-istanbul';
 import mocha from 'gulp-mocha';
+import { clientConfig } from './server/config/config';
 
 var isparta = require('isparta');
 
@@ -194,6 +197,36 @@ function ssl() {
 ssl.displayName = 'ssl';
 gulp.task(ssl);
 
+function buildConfig() {
+  return gulp.src('./server/config/client.json')
+    .pipe(jeditor(function(json) {
+      let stringy = JSON.stringify(clientConfig.constants); // must return JSON object.
+      return JSON.parse(stringy);
+    }))
+    .pipe(ngConfig('core.config', {
+      wrap: true,
+      createModule: false
+    }))
+    .pipe(rename('core.client.config.constants.js'))
+    .pipe(gulp.dest('./client/config'))
+    .pipe(gulp.src('./server/config/client.json'))
+    .pipe(jeditor(function(json) {
+      let stringy = JSON.stringify(clientConfig.values); // must return JSON object.
+      return JSON.parse(stringy);
+    }))
+    .pipe(ngConfig('core.config', {
+      type: 'value',
+      wrap: true,
+      createModule: false
+    }))
+    .pipe(rename('core.client.config.values.js'))
+    .pipe(gulp.dest('./client/config'));
+
+}
+buildConfig.displayName = 'client:config';
+gulp.task(buildConfig);
+
+
 
 function sendCoveralls() {
   return gulp.src('tests/.coverage/**/lcov.info')
@@ -206,21 +239,21 @@ gulp.task(sendCoveralls);
 
 
 //Build Client
-let client = gulp.series(cleanClient, gulp.parallel(images, templates, application, vendor, bootloader, angular));
+let client = gulp.series(cleanClient, buildConfig, gulp.parallel(images, templates, application, vendor, bootloader, angular));
 client.displayName = 'client';
 gulp.task(client);
 
 //Build Server
-let server = gulp.series(cleanServer, gulp.parallel(serverBabel, ssl));
+let server = gulp.series(cleanServer, buildConfig, gulp.parallel(serverBabel, ssl));
 server.displayName = 'server';
 gulp.task(server);
 
 //Gulp Default
-let defaultTask = gulp.series(clean, gulp.parallel(server, client));
+let defaultTask = gulp.series(clean, buildConfig, gulp.parallel(server, client));
 defaultTask.displayName = 'default';
 gulp.task(defaultTask);
 
 //Gulp Test
-let testTask = gulp.series(clean, defaultTask, lint, testClientSingle, testServerSingle);
+let testTask = gulp.series(defaultTask, lint, testClientSingle, testServerSingle);
 testTask.displayName = 'test';
 gulp.task(testTask);

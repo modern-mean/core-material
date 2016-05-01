@@ -6,7 +6,7 @@
     $compile,
     $rootScope,
     SideNavLeftController,
-    CORE_CONSTANTS,
+    NAVIGATION,
     sandbox;
 
   describe('core.client.controller.sidenav.left.js', function () {
@@ -19,7 +19,7 @@
 
     beforeEach(module('core'));
 
-    beforeEach(inject(function(_$state_, _$rootScope_, $controller, _$compile_, _CORE_CONSTANTS_) {
+    beforeEach(inject(function(_$state_, _$rootScope_, $controller, _$compile_, _NAVIGATION_) {
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
       $state = _$state_;
@@ -28,7 +28,7 @@
         $scope: $scope
       });
 
-      CORE_CONSTANTS = _CORE_CONSTANTS_;
+      NAVIGATION = _NAVIGATION_;
 
 
     }));
@@ -55,13 +55,13 @@
         describe('locked always', function () {
 
           beforeEach(function () {
-            CORE_CONSTANTS.navigation.left.locked.always = true;
+            NAVIGATION.left.locked.always = true;
             $compile('<md-sidenav md-component-id="coreLeftNav" md-disable-backdrop="{{vm.disableBackdrop}}" md-is-locked-open="vm.isLockedOpen()"></md-sidenav>')($scope);
             $scope.$digest();
           });
 
           afterEach(function () {
-            CORE_CONSTANTS.navigation.left.locked.always = false;
+            NAVIGATION.left.locked.always = false;
           });
 
           it('should set left side nav to locked', function () {
@@ -95,7 +95,7 @@
           });
 
           it('should not lock the navigation', function () {
-            expect($scope.vm.config.backdrop).to.equal(CORE_CONSTANTS.navigation.left.backdrop);
+            expect($scope.vm.config.backdrop).to.equal(NAVIGATION.left.backdrop);
             return expect($scope.vm.navigation.isLockedOpen()).to.equal(false);
           });
 

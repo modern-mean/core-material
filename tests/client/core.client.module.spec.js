@@ -12,10 +12,10 @@
     it('should have created the core.routes module', function () {
       expect(angular.module('core.routes')).to.be.an('object');
       expect(angular.module('core.routes').name).to.equal('core.routes');
-      expect(angular.module('core.routes').requires.length).to.equal(1);
+      expect(angular.module('core.routes').requires.length).to.equal(2);
       expect(angular.module('core.routes').requires).to.include('ui.router');
     });
 
   });
-  
+
 })();

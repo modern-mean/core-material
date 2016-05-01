@@ -1,9 +1,10 @@
 'use strict';
 
-let config;
+let serverConfig,
+  clientConfig;
 
 function load() {
-  return config = {
+  serverConfig = {
     app: {
       title: process.env.MEAN_CORE_TITLE || 'MODERN-MEAN',
       description: process.env.MEAN_CORE_DESCRIPTION || 'Full-Stacka JavaScript with MongoDB, Express, AngularJS, and Node.js',
@@ -53,8 +54,47 @@ function load() {
       debug: process.env.MEAN_CORE_MONGOOSE_DEBUG || 'false'
     }
   };
+
+  clientConfig = {
+    constants: {
+      ANALYTICS: {
+        name: 'tracker',
+        tracker: 'UA-77127830-1',
+        trackEvent: true
+      },
+      LOGGING: {
+        //https://docs.angularjs.org/api/ng/service/$log
+        levels: {
+          debug: process.env.MEAN_CORE_ANGULAR_DEBUG || 'false',
+          info: process.env.MEAN_CORE_ANGULAR_INFO || 'true',
+          warn: process.env.MEAN_CORE_ANGULAR_WARN || 'true',
+          error: process.env.MEAN_CORE_ANGULAR_ERROR || 'true'
+        }
+      },
+    },
+    values: {
+      PAGE: {
+        title: serverConfig.app.title
+      },
+      NAVIGATION: {
+        left: {
+          heading: 'Left Navigation',
+          backdrop: true,
+          locked: {
+            always: false,
+            media: 'gt-sm'
+          }
+        },
+        right: {
+          locked: {
+            always: false
+          }
+        }
+      }
+    }
+  };
 }
 
 load();
 
-export { load, config };
+export { load, serverConfig as config, clientConfig };

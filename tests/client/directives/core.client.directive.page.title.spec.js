@@ -21,7 +21,7 @@
     it('should inject the state.data.pageTitle into DOM', function() {
       var element = $compile('<div page-title></div>')($rootScope);
       $rootScope.$digest();
-      expect(element.html()).to.equal('Modern MEAN - Welcome');
+      expect(element.html()).to.equal('MODERN-MEAN - Welcome');
     });
 
     it('should inject the core page title constant into DOM if page title doesnt exist on the state', function() {
@@ -29,7 +29,7 @@
       var element = $compile('<div page-title></div>')($rootScope);
       $state.transitionTo('root.home');
       $rootScope.$digest();
-      expect(element.html()).to.equal('Modern MEAN');
+      expect(element.html()).to.equal('MODERN-MEAN');
     });
   });
 })();

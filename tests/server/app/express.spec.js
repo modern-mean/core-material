@@ -336,7 +336,7 @@ describe('/modules/core/server/app/express.js', () => {
     describe('error', () => {
 
       beforeEach(() => {
-        process.env.MEAN_CORE_MODULES_CORE = './modules/core/tests/server/rejectModule.js';
+        process.env.MEAN_CORE_MODULES_CORE = 'tests/server/rejectModule.js';
         config.load();
       });
 
