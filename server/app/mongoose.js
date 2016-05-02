@@ -8,6 +8,11 @@ import { config } from '../config/config';
 
 mongoose.Promise = global.Promise;
 
+if (config.mongoose.debug === 'true') {
+  logger.debug('Mongoose::Debug::Enabled');
+  mongoose.set('debug', true);
+}
+
 //Database Connection
 let db;
 

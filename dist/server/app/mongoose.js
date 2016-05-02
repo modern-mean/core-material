@@ -27,6 +27,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 _mongoose2.default.Promise = global.Promise;
 
+if (_config.config.mongoose.debug === 'true') {
+  _logger2.default.debug('Mongoose::Debug::Enabled');
+  _mongoose2.default.set('debug', true);
+}
+
 //Database Connection
 let db;
 

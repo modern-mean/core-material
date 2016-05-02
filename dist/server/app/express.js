@@ -146,16 +146,16 @@ function modules(app) {
           promises.push(promise);
         } catch (err) {
           _logger2.default.error('Express::Modules::Error', err);
-          reject(err);
+          return reject(err);
         }
       });
 
       Promise.all(promises).then(() => {
         _logger2.default.verbose('Express::Modules::Success', _config.config.modules.custom);
-        resolve(app);
+        return resolve(app);
       }).catch(err => {
         _logger2.default.error('Express::Modules::Error', err);
-        reject(err);
+        return reject(err);
       });
     });
   });
