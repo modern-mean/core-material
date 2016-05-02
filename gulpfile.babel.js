@@ -51,7 +51,7 @@ clean.displayName = 'clean';
 gulp.task(clean);
 
 function lint() {
-  return gulp.src(['./server/**/*.js', './client/**/*.js', './test/**/*.js', '!**/*.constants.js', '!**/*.values.js'])
+  return gulp.src(['./server/**/*.js', './client/**/*.js', './test/**/*.js', '!**/client/**/*.constants.js', '!**/client/**/*.values.js'])
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());

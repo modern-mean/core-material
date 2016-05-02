@@ -86,14 +86,14 @@ describe('/modules/core/server/app/express.js', () => {
         let promise;
 
         before(() => {
-          process.env.MEAN_CORE_HTTPS = 'true';
+          process.env.MM_CORE_HTTPS = 'true';
           config.load();
           promise = expressModule.init();
           return promise;
         });
 
         after(() => {
-          delete process.env.MEAN_CORE_HTTPS;
+          delete process.env.MM_CORE_HTTPS;
           config.load();
           return expressModule.destroy();
         });
@@ -207,12 +207,12 @@ describe('/modules/core/server/app/express.js', () => {
     describe('https', () => {
 
       before(() => {
-        process.env.MEAN_CORE_HTTPS = 'true';
+        process.env.MM_CORE_HTTPS = 'true';
         config.load();
       });
 
       after(() => {
-        delete process.env.MEAN_CORE_HTTPS;
+        delete process.env.MM_CORE_HTTPS;
         config.load();
       });
 
@@ -281,12 +281,12 @@ describe('/modules/core/server/app/express.js', () => {
     describe('success', () => {
 
       beforeEach(() => {
-        process.env.MEAN_CORE_MODULES_CUSTOM = 'tests/server/resolveModule.js';
+        process.env.MM_CORE_MODULES_CUSTOM = 'tests/server/resolveModule.js';
         config.load();
       });
 
       afterEach(() => {
-        delete process.env.MEAN_CORE_MODULES_CUSTOM;
+        delete process.env.MM_CORE_MODULES_CUSTOM;
         config.load();
       });
 
@@ -300,12 +300,12 @@ describe('/modules/core/server/app/express.js', () => {
     describe('error', () => {
 
       beforeEach(() => {
-        process.env.MEAN_CORE_MODULES_CUSTOM = 'tests/server/rejectModule.js';
+        process.env.MM_CORE_MODULES_CUSTOM = 'tests/server/rejectModule.js';
         config.load();
       });
 
       afterEach(() => {
-        delete process.env.MEAN_CORE_MODULES_CUSTOM;
+        delete process.env.MM_CORE_MODULES_CUSTOM;
         config.load();
       });
 
@@ -336,12 +336,12 @@ describe('/modules/core/server/app/express.js', () => {
     describe('error', () => {
 
       beforeEach(() => {
-        process.env.MEAN_CORE_MODULES_CORE = 'tests/server/rejectModule.js';
+        process.env.MM_CORE_MODULES_CORE = 'tests/server/rejectModule.js';
         config.load();
       });
 
       afterEach(() => {
-        delete process.env.MEAN_CORE_MODULES_CORE;
+        delete process.env.MM_CORE_MODULES_CORE;
         config.load();
       });
 
@@ -388,7 +388,7 @@ describe('/modules/core/server/app/express.js', () => {
       describe('https', () => {
 
         before(() => {
-          process.env.MEAN_CORE_HTTPS = 'true';
+          process.env.MM_CORE_HTTPS = 'true';
           config.load();
           promise = expressModule.init()
             .then(expressModule.listen);
@@ -396,7 +396,7 @@ describe('/modules/core/server/app/express.js', () => {
         });
 
         after(() => {
-          delete process.env.MEAN_CORE_HTTPS;
+          delete process.env.MM_CORE_HTTPS;
           config.load();
           return expressModule.destroy();
         });
@@ -477,12 +477,12 @@ describe('/modules/core/server/app/express.js', () => {
       describe('https', () => {
 
         before(() => {
-          process.env.MEAN_CORE_HTTPS = 'true';
+          process.env.MM_CORE_HTTPS = 'true';
           config.load();
         });
 
         after(() => {
-          delete process.env.MEAN_CORE_HTTPS;
+          delete process.env.MM_CORE_HTTPS;
           config.load();
         });
 

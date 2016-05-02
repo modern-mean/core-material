@@ -1,7 +1,6 @@
 'use strict';
 
 import app from '../../../server/app/init';
-import mongooseModule from '../../../server/app/mongoose';
 import expressModule from '../../../server/app/express';
 
 let sandbox;
@@ -45,7 +44,7 @@ describe('/modules/core/server/app/init.js', () => {
 
     describe('success', () => {
 
-      let initStub, variablesStub, middlewareStub, engineStub, headersStub, modulesStub, coreStub, listenStub, connectStub, promiseStub;
+      let initStub, variablesStub, middlewareStub, engineStub, headersStub, modulesStub, coreStub, listenStub;
 
       beforeEach(() => {
         //Express Stubs
@@ -57,8 +56,6 @@ describe('/modules/core/server/app/init.js', () => {
         modulesStub = sandbox.stub(expressModule, 'modules').resolves();
         coreStub = sandbox.stub(expressModule, 'core').resolves();
         listenStub = sandbox.stub(expressModule, 'listen').resolves();
-        //Mongoose Stubs
-        connectStub = sandbox.stub(mongooseModule, 'connect').resolves();
 
         return app.start();
       });
@@ -75,7 +72,6 @@ describe('/modules/core/server/app/init.js', () => {
         headersStub.should.have.been.called;
         modulesStub.should.have.been.called;
         coreStub.should.have.been.called;
-        connectStub.should.have.been.called;
         return listenStub.should.have.been.called;
       });
 
@@ -109,13 +105,13 @@ describe('/modules/core/server/app/init.js', () => {
       describe('https', () => {
 
         before(() => {
-          process.env.MEAN_CORE_HTTPS = 'true';
+          process.env.MM_CORE_HTTPS = 'true';
           config.load();
           return app.start();
         });
 
         after(() => {
-          delete process.env.MEAN_CORE_HTTPS;
+          delete process.env.MM_CORE_HTTPS;
           config.load();
           return app.stop();
         });
@@ -141,32 +137,15 @@ describe('/modules/core/server/app/init.js', () => {
   describe('app.stop()', () => {
 
     describe('express failure', () => {
-      let mockExpress, mockMongoose;
+      let mockExpress;
 
       beforeEach(() => {
         mockExpress = sandbox.stub(expressModule, 'destroy').rejects();
-        mockMongoose = sandbox.stub(mongooseModule, 'disconnect').resolves();
       });
 
       it('should reject the promise', done => {
         app.stop()
           .catch(() => {
-            done();
-          });
-      });
-    });
-
-    describe('mongoose failure', () => {
-      let mockExpress, mockMongoose;
-
-      beforeEach(() => {
-        mockExpress = sandbox.stub(expressModule, 'destroy').resolves();
-        mockMongoose = sandbox.stub(mongooseModule, 'disconnect').rejects();
-      });
-
-      it('should reject the promise', done => {
-        app.stop()
-          .catch(err => {
             done();
           });
       });

@@ -211,7 +211,6 @@ function listen(app) {
     _logger2.default.info('--');
     _logger2.default.info(_config.config.app.title);
     _logger2.default.info('Environment:     ' + process.env.NODE_ENV);
-    _logger2.default.info('Database:        ' + _config.config.mongoose.uri + _config.config.mongoose.db);
     _logger2.default.info('HTTP Server:     http://' + httpServer.address().address + ':' + httpServer.address().port);
     if (_config.config.express.https.enable === 'true') {
       _logger2.default.info('HTTPS Server:    https://' + httpsServer.address().address + ':' + httpsServer.address().port);

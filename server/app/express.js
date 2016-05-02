@@ -175,7 +175,6 @@ function listen(app) {
             logger.info('--');
             logger.info(config.app.title);
             logger.info('Environment:     ' + process.env.NODE_ENV);
-            logger.info('Database:        ' + config.mongoose.uri + config.mongoose.db);
             logger.info('HTTP Server:     http://' + httpServer.address().address + ':' + httpServer.address().port);
             if (config.express.https.enable === 'true') {
               logger.info('HTTPS Server:    https://' + httpsServer.address().address + ':' + httpsServer.address().port);
