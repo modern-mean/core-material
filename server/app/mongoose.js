@@ -14,11 +14,11 @@ if (config.mongoose.debug === 'true') {
 }
 
 //Database Connection
-let db;
+let db,
+  ready;
 
 function connect() {
-  return new Promise((resolve, reject) => {
-
+  ready = new Promise((resolve, reject) => {
     if (mongoose.connection.readyState !== 0) {
       logger.info('Mongoose::Connect::Already Connected');
       return resolve(mongoose);
@@ -36,6 +36,7 @@ function connect() {
     });
 
   });
+  return ready;
 }
 
 function disconnect() {
@@ -62,7 +63,7 @@ function disconnect() {
 }
 
 
-let service = { connect: connect, disconnect: disconnect, mongoose: mongoose };
+let service = { connect: connect, disconnect: disconnect, mongoose: mongoose, ready: ready };
 
 export default service;
-export { connect, disconnect, mongoose };
+export { connect, disconnect, mongoose, ready };

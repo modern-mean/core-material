@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.mongoose = exports.disconnect = exports.connect = undefined;
+exports.ready = exports.mongoose = exports.disconnect = exports.connect = undefined;
 
 var _mongoose = require('mongoose');
 
@@ -33,10 +33,10 @@ if (_config.config.mongoose.debug === 'true') {
 }
 
 //Database Connection
-let db;
+let db, ready;
 
 function connect() {
-  return new Promise((resolve, reject) => {
+  exports.ready = ready = new Promise((resolve, reject) => {
 
     if (_mongoose2.default.connection.readyState !== 0) {
       _logger2.default.info('Mongoose::Connect::Already Connected');
@@ -54,6 +54,7 @@ function connect() {
       return resolve(_mongoose2.default);
     });
   });
+  return ready;
 }
 
 function disconnect() {
@@ -78,9 +79,10 @@ function disconnect() {
   });
 }
 
-let service = { connect: connect, disconnect: disconnect, mongoose: _mongoose2.default };
+let service = { connect: connect, disconnect: disconnect, mongoose: _mongoose2.default, ready: ready };
 
 exports.default = service;
 exports.connect = connect;
 exports.disconnect = disconnect;
 exports.mongoose = _mongoose2.default;
+exports.ready = ready;
