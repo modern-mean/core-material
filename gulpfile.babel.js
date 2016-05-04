@@ -2,7 +2,7 @@
 
 import gulp from 'gulp';
 import * as modules from 'modern-mean-build-gulp/dist/modules';
-import { clientConfig as config } from './server/config/config';
+import { clientConfig as config } from './src/server/config/config';
 
 
 
