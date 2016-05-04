@@ -38,7 +38,7 @@ install:
 #  - sleep 3
 after_script:
   - nsp audit-package
-  - gulp coveralls
+  - gulp coverage
 notifications:
   webhooks:
     urls:
