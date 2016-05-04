@@ -2,8 +2,10 @@
 
 import path from 'path';
 import { config } from '../config/config';
+import logger from '../app/logger';
 
 function renderIndex(req, res) {
+  logger.debug('Core::Render::Index', config.express.layout);
   res.render(config.express.layout);
 }
 

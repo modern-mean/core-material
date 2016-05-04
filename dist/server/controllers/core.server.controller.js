@@ -11,9 +11,14 @@ var _path2 = _interopRequireDefault(_path);
 
 var _config = require('../config/config');
 
+var _logger = require('../app/logger');
+
+var _logger2 = _interopRequireDefault(_logger);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function renderIndex(req, res) {
+  _logger2.default.debug('Core::Render::Index', _config.config.express.layout);
   res.render(_config.config.express.layout);
 }
 
