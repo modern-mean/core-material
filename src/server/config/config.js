@@ -25,7 +25,8 @@ function load() {
           cert: process.env.MM_CORE_HTTPS_CERT || __dirname + '/../ssl/cert.pem'
         }
       },
-      livereload: process.env.MM_CORE_LIVERELOAD || 'false'
+      livereload: process.env.MM_CORE_LIVERELOAD || 'false',
+      layout: process.env.MM_CORE_LAYOUT || './public/dist/index'
     },
     logs: {
       //https://github.com/expressjs/morgan

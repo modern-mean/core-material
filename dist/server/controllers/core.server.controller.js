@@ -9,10 +9,12 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
+var _config = require('../config/config');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function renderIndex(req, res) {
-  res.render(__dirname + '/../views/index');
+  res.render(_config.config.express.layout);
 }
 
 function renderServerError(req, res) {

@@ -1,9 +1,10 @@
 'use strict';
 
 import path from 'path';
+import { config } from '../config/config';
 
 function renderIndex(req, res) {
-  res.render(__dirname + '/../views/index');
+  res.render(config.express.layout);
 }
 
 function renderServerError(req, res) {
