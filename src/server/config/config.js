@@ -26,7 +26,8 @@ function load() {
         }
       },
       livereload: process.env.MM_CORE_LIVERELOAD || 'false',
-      layout: process.env.MM_CORE_LAYOUT || 'index'
+      layout: process.env.MM_CORE_LAYOUT || 'index',
+      views: process.env.MM_CORE_VIEWS || './dist/server/views'
     },
     logs: {
       //https://github.com/expressjs/morgan

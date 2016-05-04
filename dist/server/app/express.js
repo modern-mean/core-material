@@ -119,7 +119,7 @@ function engine(app) {
 
     // Set views path and view engine
     app.set('view engine', 'server.view.html');
-    app.set('views', './dist/server/views');
+    app.set('views', _config.config.express.views);
     _logger2.default.verbose('Express::Engine::Success');
     return resolve(app);
   });

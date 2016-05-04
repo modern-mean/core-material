@@ -72,7 +72,7 @@ function engine(app) {
 
     // Set views path and view engine
     app.set('view engine', 'server.view.html');
-    app.set('views', './dist/server/views');
+    app.set('views', config.express.views);
     logger.verbose('Express::Engine::Success');
     return resolve(app);
   });
