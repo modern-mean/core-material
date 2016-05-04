@@ -1,6 +1,6 @@
 'use strict';
 
-import * as controller from '../../../server/controllers/core.server.controller.js';
+import * as controller from '../../../src/server/controllers/core.server.controller.js';
 
 let sandbox;
 

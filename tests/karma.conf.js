@@ -11,7 +11,7 @@ module.exports = function (karmaConfig) {
   karmaFiles.push('../dist/client/angular.js');
   karmaFiles.push('../bower_components/angular-mocks/angular-mocks.js');
   karmaFiles.push('../bower_components/angular-material/angular-material-mocks.js');
-  karmaFiles = lodash.union(karmaFiles, ['../client/app/core.client.app.loader.js', '../client/**/*.module.js', '../client/**/!(*module).js', '../tests/client/**/*.js']);
+  karmaFiles = lodash.union(karmaFiles, ['../src/client/app/core.client.app.loader.js', '../src/client/**/*.module.js', '../src/client/**/!(*module).js', '../tests/client/**/*.js']);
   karmaFiles.push('../dist/client/vendor.js');
   karmaFiles.push('../dist/client/templates.js');
 
@@ -26,8 +26,8 @@ module.exports = function (karmaConfig) {
 
     preprocessors: {
       'karma.setup.js': [ 'browserify' ],
-      '../client/views/**/*.html': ['ng-html2js'],
-      '../client/**/*.js': ['coverage']
+      '../src/client/views/**/*.html': ['ng-html2js'],
+      '../src/client/**/*.js': ['coverage']
     },
     browserify: {
       debug: true,

@@ -1,6 +1,6 @@
 'use strict';
 
-import expressModule from '../../../server/app/express';
+import expressModule from '../../../src/server/app/express';
 import express from 'express';
 import http from 'http';
 import https from 'https';

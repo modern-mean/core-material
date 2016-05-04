@@ -1,9 +1,9 @@
 'use strict';
 
 import express from 'express';
-import * as routes from '../../../server/routes/core.server.routes';
-import * as controller from '../../../server/controllers/core.server.controller';
-import mean from '../../../server/app/init';
+import * as routes from '../../../src/server/routes/core.server.routes';
+import * as controller from '../../../src/server/controllers/core.server.controller';
+import mean from '../../../src/server/app/init';
 
 let sandbox;
 

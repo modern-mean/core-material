@@ -1,7 +1,7 @@
 'use strict';
 
-import app from '../../../server/app/init';
-import expressModule from '../../../server/app/express';
+import app from '../../../src/server/app/init';
+import expressModule from '../../../src/server/app/express';
 
 let sandbox;
 

@@ -1,6 +1,6 @@
 'use strict';
 
-import app from '../../../server/app/init';
+import app from '../../../src/server/app/init';
 
 let sandbox;
 
@@ -23,8 +23,8 @@ describe('/modules/core/server/app/server.js', () => {
     });
 
     it('should call app.start()', (done) => {
-      delete require.cache[require.resolve('../../../server/app/server')];
-      require('../../../server/app/server');
+      delete require.cache[require.resolve('../../../src/server/app/server')];
+      require('../../../src/server/app/server');
       setTimeout(() => {
         mockStart.should.be.calledOnce;
         done();
@@ -43,8 +43,8 @@ describe('/modules/core/server/app/server.js', () => {
     });
 
     it('should call app.stop()', (done) => {
-      delete require.cache[require.resolve('../../../server/app/server')];
-      require('../../../server/app/server');
+      delete require.cache[require.resolve('../../../src/server/app/server')];
+      require('../../../src/server/app/server');
       setTimeout(() => {
         mockStop.should.have.been.called;
         done();

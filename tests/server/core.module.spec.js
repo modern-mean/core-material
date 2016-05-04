@@ -1,7 +1,7 @@
 'use strict';
 
-import * as core from '../../server/core.module';
-import routes from '../../server/routes/core.server.routes';
+import * as core from '../../src/server/core.module';
+import routes from '../../src/server/routes/core.server.routes';
 import express from 'express';
 
 let sandbox;

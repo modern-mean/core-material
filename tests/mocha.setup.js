@@ -4,8 +4,8 @@ import sinonChai from 'sinon-chai';
 import sinonPromised from 'sinon-as-promised';
 import promised from 'chai-as-promised';
 import request from 'supertest';
-import logger from '../server/app/logger';
-import * as config from '../server/config/config';
+import logger from '../src/server/app/logger';
+import * as config from '../src/server/config/config';
 
 chai.use(promised);
 chai.use(sinonChai);
